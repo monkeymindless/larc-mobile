@@ -120,6 +120,7 @@ background:linear-gradient(160deg,#2F5F9E,#1E3F6E);box-shadow:0 4px 14px rgba(30
 .song_am .vach_am i{display:block;width:4px;height:8px;border-radius:2px;background:#059669;animation:song 0.9s ease-in-out infinite}
 .song_am .vach_am i:nth-child(2){animation-delay:.1s}.song_am .vach_am i:nth-child(3){animation-delay:.2s}.song_am .vach_am i:nth-child(4){animation-delay:.3s}
 .song_am .vach_am i:nth-child(5){animation-delay:.4s}.song_am .vach_am i:nth-child(6){animation-delay:.5s}.song_am .vach_am i:nth-child(7){animation-delay:.6s}
+.dai_ban_moi{position:fixed;left:8px;right:8px;bottom:calc(env(safe-area-inset-bottom) + 76px);z-index:80;background:#1E3A5F;color:#fff;border:0;border-radius:10px;padding:12px;font-size:14px;font-weight:600;box-shadow:0 6px 20px rgba(15,23,42,.3)}
 .doc_ct{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top) + 8px);z-index:70;background:#fff;border:2px solid #059669;border-radius:12px;padding:10px;box-shadow:0 8px 28px rgba(15,23,42,.28)}.doc_ct[hidden]{display:none}.doc_ct b{display:block;color:#065F46;font-size:14px;margin-bottom:4px}.doc_ct p{margin:0 0 6px;font-size:12.5px;color:#475569}.doc_ct textarea{width:100%;box-sizing:border-box;min-height:96px;font-size:16px}
 @keyframes song{50%{height:26px}}.song_am #song_chu{flex:1;min-width:0;font-size:13px;color:#065F46}
 #card_ai_splitter{border-color:#BFDBFE;box-shadow:0 2px 10px rgba(47,95,158,.08)}#ai_chu{min-height:92px;font-size:15px;line-height:1.4}
@@ -146,7 +147,7 @@ font-size:12px;min-height:34px;box-shadow:0 1px 4px rgba(15,23,42,.25)}.chip_nen
 <div id="app">
 <header><img alt="LARC" src="icon-180.png"/><div class="chu"><div class="ten">LARC Mobile</div>
 <div class="phu" title="Phương án bồi thường, hỗ trợ, tái định cư · kiểm đếm thực địa, không cần mạng">Kiểm đếm thực địa</div></div>
-<span class="huy">v1.2.2</span><button class="doi" id="b_xoay" type="button" style="display:none">🔄 Xoay ngang</button>
+<span class="huy">v1.2.3</span><button class="doi" id="b_xoay" type="button" style="display:none">🔄 Xoay ngang</button>
 <button class="doi" id="b_doi_du_an" type="button" style="display:none">Dự án</button></header>
 <div class="ho_bar" id="ho_bar"><button class="phu" id="b_truoc" type="button" title="Hộ trước">◀</button>
 <select id="cb_ho" aria-label="Chọn hộ"></select><button class="phu" id="b_sau" type="button" title="Hộ sau">▶</button>
@@ -284,7 +285,7 @@ Phần mềm tự tìm hộ theo CCCD, tờ / thửa (lô rừng), họ tên; h�
 
 <div id="man_chao"><button class="phu" id="c_quay_lai" type="button" style="display:none;margin-bottom:8px">← Quay lại dự án đang mở</button>
 <div class="dau"><img alt="LARC" src="icon-180.png"/><div><h1>LARC Mobile</h1>
-<div class="ghi">Kiểm đếm thực địa · phiên bản 1.2.2 · chạy không cần mạng</div></div></div>
+<div class="ghi">Kiểm đếm thực địa · phiên bản 1.2.3 · chạy không cần mạng</div></div></div>
 <div class="khung" id="c_khung_doc_lap"><h3>Kiểm đếm độc lập ngay tại hiện trường (không cần file từ máy tính)</h3>
 <p class="ghi">Dùng bộ danh mục đơn giá nhúng sẵn trong ứng dụng; ghi hộ mới bằng nút "+ Hộ mới". Kết quả gửi về máy tính như bình thường
 (phần mềm hỏi thêm hộ mới).</p><label for="c_ten_moi">Tên dự án / khu vực</label><input id="c_ten_moi"/>
@@ -371,7 +372,10 @@ máy tính thường xuyên; gỡ ứng dụng (hoặc xóa dữ liệu trang we
     if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
     if (!r) { moChao(); return; }
     chay(r); }
-  if (CHE_DO === "pwa" && "serviceWorker" in navigator && window.isSecureContext) navigator.serviceWorker.register("sw.js").catch(() => {});
+  if (CHE_DO === "pwa" && "serviceWorker" in navigator && window.isSecureContext) {
+    const co_ban_cu = !!navigator.serviceWorker.controller;      // lần mở đầu tiên: chưa có bộ chạy nào - không báo
+    navigator.serviceWorker.addEventListener("controllerchange", () => { if (co_ban_cu) baoBanMoi(); });
+    navigator.serviceWorker.register("sw.js").then(r => r.update()).catch(() => {}); }
   // iPhone / iPad: ô chọn file có đuôi lạ (.kml, .kmz) bị làm mờ - bỏ lọc đuôi, ứng dụng tự kiểm nội dung
   if (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1))
     document.addEventListener("DOMContentLoaded", () => { const m = $("m_file"); if (m) m.removeAttribute("accept"); });
@@ -826,6 +830,10 @@ function xemAnhSangAI() { const chu = $("xa_chu").value.trim(); if (!chu) { bao(
 const NOI = {rec: null, dich: null, chu: "", android: false, bi_chan: false};  // android: bản .apk đang nghe qua SpeechRecognizer
 // iPhone / iPad: Web Speech chỉ chạy trong tab Safari - Edge / Chrome (WKWebView) và ứng dụng "Thêm vào Màn hình chính" báo
 // service-not-allowed dù đã cho phép micrô -> dùng đọc chính tả của bàn phím iPhone (chạy mọi nơi, Apple xử lý, không cần hỏi đồng ý)
+// có bản mới trên mạng (bộ chạy ngoại tuyến vừa cập nhật): dải trên cùng, bấm để mở bản mới - dữ liệu đã ghi tự lưu trên máy, không mất
+function baoBanMoi() { if (document.getElementById("dai_ban_moi")) return;
+  const d = el("button", {type: "button", cls: "dai_ban_moi", text: "🔄 Đã có bản LARC Mobile mới - bấm để cập nhật (dữ liệu đã ghi vẫn giữ nguyên)",
+    onclick: () => location.reload()}); d.id = "dai_ban_moi"; document.body.appendChild(d); }
 function laIOS() { const ua = navigator.userAgent || "";
   return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); }
 const DOC_CT = {dich: null};
@@ -1487,7 +1495,7 @@ window.LARC_quayLaiChinh = () => { if (dongXemAnh()) return true; if (!$("ngan_t
   if (ST.the !== TRANG_AI) { moThe(TRANG_AI); return true; } return false; };
 function tenFile(t) { return (boDau(t).replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "") || "ho") + ".json"; }
 async function taoKetQua(dsKhoa, kemAnh) {
-  const ra = {phien_ban: PHIEN_BAN_PHIEU, ung_dung: "LARC Mobile 1.2.2", du_an: DU.du_an, luc: new Date().toISOString(), kinh_tuyen: DU.kinh_tuyen,
+  const ra = {phien_ban: PHIEN_BAN_PHIEU, ung_dung: "LARC Mobile 1.2.3", du_an: DU.du_an, luc: new Date().toISOString(), kinh_tuyen: DU.kinh_tuyen,
     ket_qua: {}, ho_dan: {}, dat_dai: {}, anh: {}};
   for (const k of dsKhoa) { const h = hoST(k), g = hoGoc(k) || {};
     ra.ket_qua[k] = h.dong.map(d => { const x = Object.assign({}, d); delete x.nhom; delete x.luc; delete x.tu_bb; return x; });
