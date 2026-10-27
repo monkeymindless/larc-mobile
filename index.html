@@ -121,7 +121,18 @@ background:linear-gradient(160deg,#2F5F9E,#1E3F6E);box-shadow:0 2px 6px rgba(30,
 .song_am .vach_am i:nth-child(2){animation-delay:.1s}.song_am .vach_am i:nth-child(3){animation-delay:.2s}.song_am .vach_am i:nth-child(4){animation-delay:.3s}
 .song_am .vach_am i:nth-child(5){animation-delay:.4s}.song_am .vach_am i:nth-child(6){animation-delay:.5s}.song_am .vach_am i:nth-child(7){animation-delay:.6s}
 .dai_ban_moi{position:fixed;left:8px;right:8px;bottom:calc(env(safe-area-inset-bottom) + 76px);z-index:80;background:#1E3A5F;color:#fff;border:0;border-radius:10px;padding:12px;font-size:14px;font-weight:600;box-shadow:0 6px 20px rgba(15,23,42,.3)}
-.doc_ct{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top) + 8px);z-index:70;background:#fff;border:2px solid #059669;border-radius:12px;padding:10px;box-shadow:0 8px 28px rgba(15,23,42,.28)}.doc_ct[hidden]{display:none}.doc_ct b{display:block;color:#065F46;font-size:14px;margin-bottom:4px}.doc_ct p{margin:0 0 6px;font-size:12.5px;color:#475569}.doc_ct textarea{width:100%;box-sizing:border-box;min-height:96px;font-size:16px}
+.hop_thu_am{position:fixed;left:6px;right:6px;top:calc(env(safe-area-inset-top) + 6px);max-height:calc(100dvh - 12px - env(safe-area-inset-top));overflow:auto;-webkit-overflow-scrolling:touch;z-index:70;background:#fff;border:2px solid #059669;border-radius:12px;padding:10px;box-shadow:0 8px 28px rgba(15,23,42,.3)}.hop_thu_am[hidden]{display:none}body.khung_dt .hop_thu_am{left:50%;right:auto;width:418px;margin-left:-209px}
+.ta_dau{display:flex;align-items:center;gap:8px;margin-bottom:8px}.ta_dau b{flex:1;color:#065F46;font-size:14px}.ta_dau button{min-height:36px;padding:2px 12px}
+.studio_nut{display:grid;grid-template-columns:1fr 1fr;gap:6px}.studio_nut button{min-height:48px;font-weight:700;color:#fff;border:0;border-radius:10px;font-size:14px}
+.studio_nut #b_studio_rec{grid-column:1/-1;background:#DC2626;font-size:15px}.studio_nut #b_studio_rec.dang{background:#7F1D1D}#b_studio_audio{background:#0284C7}#b_studio_audio.dang{background:#0C4A6E}#b_studio_sample{background:#7C3AED}
+.studio_wave{display:flex;align-items:center;justify-content:center;gap:4px;height:34px;margin-top:6px}.studio_wave[hidden]{display:none}.studio_wave i{display:block;width:5px;height:8px;border-radius:3px;background:#DC2626;animation:song .9s ease-in-out infinite}
+.studio_wave i:nth-child(2){animation-delay:0.1s}.studio_wave i:nth-child(3){animation-delay:0.2s}.studio_wave i:nth-child(4){animation-delay:0.3s}.studio_wave i:nth-child(5){animation-delay:0.4s}.studio_wave i:nth-child(6){animation-delay:0.5s}.studio_wave i:nth-child(7){animation-delay:0.6s}.studio_wave i:nth-child(8){animation-delay:0.7s}.studio_wave i:nth-child(9){animation-delay:0.8s}
+.studio_tt{font-size:13px;color:#334155;margin:6px 0;min-height:18px;white-space:pre-line}.studio_tt.loi{background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:8px;color:#78350F}
+.studio_am_ds .am{display:flex;align-items:center;gap:6px;margin:4px 0}.studio_am_ds audio{flex:1;min-width:0;height:36px}.studio_am_ds button{min-height:34px;padding:2px 8px}
+.studio_tab{display:flex;gap:4px;overflow-x:auto;margin:8px 0 6px;scrollbar-width:none}.studio_tab::-webkit-scrollbar{display:none}.studio_tab button{white-space:nowrap;min-height:36px;padding:3px 10px;font-size:13px;background:#F1F5F9;color:var(--chu);border:1px solid var(--vach);border-radius:999px}.studio_tab button.chon{background:#065F46;color:#fff;border-color:#065F46}
+.studio_chip{display:flex;flex-wrap:wrap;gap:5px;max-height:30vh;overflow:auto}.studio_chip button{min-height:38px;padding:4px 9px;font-size:13px;background:#ECFDF5;color:#065F46;border:1px solid #A7F3D0;border-radius:8px;text-align:left}.studio_chip.so button{min-width:46px;text-align:center;font-weight:700}
+#o_studio_text{width:100%;box-sizing:border-box;min-height:96px;font-size:16px;margin-top:8px}
+.studio_xong{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.studio_xong #b_studio_done{flex:1 1 100%;min-height:48px;background:#16A34A;color:#fff;border:0;border-radius:10px;font-weight:700;font-size:14px}.studio_xong button{flex:1;min-height:42px}
 @keyframes song{50%{height:26px}}.song_am #song_chu{flex:1;min-width:0;font-size:13px;color:#065F46}
 #card_ai_splitter{border-color:#BFDBFE;box-shadow:0 2px 10px rgba(47,95,158,.08)}#ai_chu{min-height:92px;font-size:15px;line-height:1.4}
 .ai_the{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--vach);border-left:4px solid var(--mau,#64748B);border-radius:8px;padding:7px 8px;
@@ -152,7 +163,7 @@ font-size:12px;min-height:34px;box-shadow:0 1px 4px rgba(15,23,42,.25)}.chip_nen
 <div id="app">
 <header><img alt="LARC" src="icon-180.png"/><div class="chu"><div class="ten">LARC Mobile</div>
 <div class="phu" title="Phương án bồi thường, hỗ trợ, tái định cư · kiểm đếm thực địa, không cần mạng">Kiểm đếm thực địa</div></div>
-<span class="huy">v1.3.0</span><button class="doi" id="b_xoay" type="button" style="display:none">🔄 Xoay ngang</button>
+<span class="huy">v1.3.1</span><button class="doi" id="b_xoay" type="button" style="display:none">🔄 Xoay ngang</button>
 <button class="doi" id="b_doi_du_an" type="button" style="display:none">Dự án</button></header>
 <div class="ho_bar" id="ho_bar"><button class="phu" id="b_truoc" type="button" title="Hộ trước">◀</button>
 <select id="cb_ho" aria-label="Chọn hộ"></select><button class="phu" id="b_sau" type="button" title="Hộ sau">▶</button>
@@ -169,7 +180,12 @@ font-size:12px;min-height:34px;box-shadow:0 1px 4px rgba(15,23,42,.25)}.chip_nen
 <input id="a_hero" type="file" accept="image/*" capture="environment" style="display:none"/>
 <div class="song_am" id="song_am" hidden><div class="vach_am"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div id="song_chu">Đang nghe… đọc liền một mạch</div><button class="phu nho" id="b_dung_noi" type="button">Xong</button></div>
-<div class="doc_ct" id="doc_ct" hidden><b>🎙️ Đọc chính tả bằng bàn phím</b><p id="doc_ct_ghi">Bấm nút micrô 🎙 trên bàn phím rồi đọc liền một mạch; đọc xong bấm Xong.</p><textarea id="doc_ct_chu" rows="4" autocomplete="off" placeholder="Chữ đọc được hiện ở đây…"></textarea><div class="hang_nut"><button id="b_doc_ct_xong" type="button">✔ Xong</button><button class="phu" id="b_doc_ct_huy" type="button">Hủy</button></div></div>
+<div class="hop_thu_am" id="hop_thu_am" hidden role="dialog" aria-label="Trung tâm thu âm và nhập nhanh kiểm đếm"><div class="ta_dau"><b>🎙️ TRUNG TÂM THU ÂM &amp; NHẬP NHANH KIỂM ĐẾM</b><button class="phu nho" id="b_studio_dong" type="button" aria-label="Đóng">✕</button></div>
+<div class="studio_nut"><button id="b_studio_rec" type="button">🔴 BẤM THU ÂM TRỰC TIẾP</button><button id="b_studio_audio" type="button">📼 Ghi file âm thanh</button><button id="b_studio_sample" type="button">✨ Chèn mẫu đọc chuẩn</button></div>
+<div class="studio_wave" id="studio_wave" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="studio_tt" id="studio_status_line"></div><div class="studio_am_ds" id="studio_am_ds"></div>
+<div class="studio_tab" id="studio_tab" role="tablist"></div><div class="studio_chip" id="studio_chip"></div>
+<textarea id="o_studio_text" rows="4" autocomplete="off" placeholder="Chữ thu âm / bấm từ khóa hiện ở đây (chạm vào ô để gõ thêm)…"></textarea>
+<div class="studio_xong"><button id="b_studio_done" type="button">⚡ Đưa vào ô nhập &amp; Tự động bóc tách ra bảng</button><button class="phu" id="b_studio_insert" type="button">📋 Chỉ chèn vào ô nhập</button><button class="xoa" id="b_studio_clear" type="button">🗑️ Xóa trắng</button></div></div>
 <div class="khung" id="card_ai_splitter"><h3>✨ Phân tách dữ liệu thông minh</h3>
 <p class="ghi" style="margin:0 0 6px">Đọc, gõ hoặc dán nội dung biên bản: chủ hộ, CCCD, tờ / thửa, nhà, vật kiến trúc, cây trồng… Máy tự tách từng mục,
 tính diện tích / thể tích, tuổi cây và tạm tính tiền ngay trên điện thoại (không cần mạng).</p>
@@ -294,7 +310,7 @@ Phần mềm tự tìm hộ theo CCCD, tờ / thửa (lô rừng), họ tên; h�
 
 <div id="man_chao"><button class="phu" id="c_quay_lai" type="button" style="display:none;margin-bottom:8px">← Quay lại dự án đang mở</button>
 <div class="dau"><img alt="LARC" src="icon-180.png"/><div><h1>LARC Mobile</h1>
-<div class="ghi">Kiểm đếm thực địa · phiên bản 1.3.0 · chạy không cần mạng</div></div></div>
+<div class="ghi">Kiểm đếm thực địa · phiên bản 1.3.1 · chạy không cần mạng</div></div></div>
 <div class="khung" id="c_khung_doc_lap"><h3>Kiểm đếm độc lập ngay tại hiện trường (không cần file từ máy tính)</h3>
 <p class="ghi">Dùng bộ danh mục đơn giá nhúng sẵn trong ứng dụng; ghi hộ mới bằng nút "+ Hộ mới". Kết quả gửi về máy tính như bình thường
 (phần mềm hỏi thêm hộ mới).</p><label for="c_ten_moi">Tên dự án / khu vực</label><input id="c_ten_moi"/>
@@ -748,7 +764,7 @@ const IDB = {db: null, bo_nho: [],
       t.onsuccess = () => ok((t.result || []).filter(r => r.du_an === DU.du_an)); t.onerror = () => ok([]); }); },
   async xoa(id) { const db = await this.mo(); if (!db) { this.bo_nho = this.bo_nho.filter(r => r.id !== id); return; }
     return new Promise(ok => { const t = db.transaction("anh", "readwrite").objectStore("anh").delete(id); t.onsuccess = () => ok(); t.onerror = () => ok(); }); },
-  async xoaHo(khoa) { for (const r of await this.ds(khoa)) await this.xoa(r.id); },
+  async xoaHo(khoa) { for (const r of [...await this.ds(khoa), ...await this.ds(KHOA_AM(khoa))]) await this.xoa(r.id); },
   async xoaHet() { const db = await this.mo(); if (!db) { this.bo_nho = []; return; }
     return new Promise(ok => { const s = db.transaction("anh", "readwrite").objectStore("anh"), r = s.openCursor();
       r.onsuccess = () => { const c = r.result; if (c) { if (c.value.du_an === DU.du_an) c.delete(); c.continue(); } else ok(); }; r.onerror = () => ok(); }); }};
@@ -845,13 +861,95 @@ function baoBanMoi() { if (document.getElementById("dai_ban_moi")) return;
     onclick: () => location.reload()}); d.id = "dai_ban_moi"; document.body.appendChild(d); }
 function laIOS() { const ua = navigator.userAgent || "";
   return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); }
-const DOC_CT = {dich: null};
-// phải gọi NGAY trong sự kiện bấm (iOS chỉ bật bàn phím khi focus() nằm trong cử chỉ người dùng); ghi: lời nhắc riêng
-function docChinhTa(dich, ghi) { DOC_CT.dich = dich || null; const o = $("doc_ct_chu"); o.value = "";
-  $("doc_ct_ghi").textContent = ghi || "Bấm nút micrô 🎙 trên bàn phím rồi đọc liền một mạch; đọc xong bấm Xong.";
-  $("doc_ct").hidden = false; o.focus(); }
-function dongDocChinhTa(lay) { const chu = $("doc_ct_chu").value.trim(), d = DOC_CT.dich; DOC_CT.dich = null;
-  $("doc_ct").hidden = true; $("doc_ct_chu").blur(); if (lay && chu) (d || (x => themVaoAI(x)))(chu); }
+// ---------------------------------------------------------------- trung tâm thu âm & nhập nhanh kiểm đếm (người dùng 27/10/2026: thay khung
+// đọc chính tả bằng bàn phím - iPhone tắt "Bật Đọc chính tả" thì bàn phím không có nút micrô). Mở hộp KHÔNG focus ô chữ (không bật bàn phím che
+// màn hình); bấm từ khóa nối thẳng vào ô. Thu âm trực tiếp: cầu nối Android (bản .apk) hoặc Web Speech (iPhone: continuous = false - phiên dài treo).
+// Ghi file âm thanh: getUserMedia + MediaRecorder, lưu trên máy theo hộ (IndexedDB, khóa "am|<hộ>"), nghe lại khi nhập biên bản - không gửi kèm .json.
+const STUDIO = {dich: null, rec: null, the: "nha", ghi: null};
+const KHOA_AM = k => "am|" + (k || "_chua_ho");
+const TU_KHOA_STUDIO = {
+  nha: ["🏠 Nhà (QĐ 18/2026)", ["Nhà 01 tầng kết cấu loại 3, mái ngói, tường gạch, nền gạch men: ", "Nhà 01 tầng kết cấu loại 4, mái tôn, tường gạch, nền gạch men: ",
+    "Nhà 01 tầng kết cấu loại 4, mái tôn, tường gạch, nền xi măng: ", "Nhà tạm, mái tôn, vách tôn, nền xi măng: ",
+    "Nhà 02 tầng móng cột BTCT, tường gạch, sàn BTCT, mái tôn: ", "trần thạch cao, ", "trần nhựa, "]],
+  vkt: ["🧱 Vật KT (QĐ 18/2026)", ["Mái che tôn khung sắt, nền xi măng: ", "Sân xi măng: ", "Sân gạch tàu: ", "Tường rào xây gạch dày 10cm, bổ trụ: ",
+    "Lưới B40 trụ bê tông: ", "Cổng sắt hộp: ", "Giếng khoan sâu ", "Bể nước xây gạch thể tích ", "Chuồng trại chăn nuôi xây gạch, mái tôn, nền xi măng: ",
+    "Ống nhựa ϕ 21: ", "Ống nhựa ϕ 27: ", "Ống nhựa ϕ 34: ", "Ống nhựa ϕ 42: ", "Ống nhựa ϕ 60: ", "Ống nhựa ϕ 90: ", "Ống nhựa ϕ 114: "]],
+  cay: ["🌳 Cây trồng (QĐ 48/2025)", ["Xoài trồng năm 2021 loại A: ", "Mít trồng năm 2022 loại A: ", "Bưởi trồng năm 2020 loại A: ",
+    "Sầu riêng trồng năm 2021 loại A: ", "Chuối bụi loại A: ", "Dừa trồng năm 2021 loại A: ", "Tràm (keo lá tràm) đường kính gốc > 10cm: ", "Tre gai bụi lớn: "]],
+  so: ["🔢 Số & Toán", ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", ",", " x ", " + ", " - ", " (", ") ", "m²; ", "m; ", "m³; ", "cây; ", "bụi; ", "\n- "]]};
+const MAU_DOC_CHUAN = "Chủ hộ Nguyễn Văn A, CCCD 075092000000, tờ 12 thửa 45 CLN 1.500 m2.\n" +
+  "Nhà 01 tầng kết cấu loại 4, mái tôn, tường gạch, nền gạch men: (5 x 12) - (2 x 3) m².\nSân xi măng: 4 x 6 m².\n" +
+  "Tường rào xây gạch dày 10cm, bổ trụ: 25 x 1,5 m².\nỐng nhựa ϕ 114: 30 m.\nXoài trồng năm 2021 loại A: 15 cây.";
+const CANH_BAO_IPHONE = "⚠️ iPhone đang tắt 'Bật Đọc chính tả'. Hãy bấm '📼 Ghi file âm thanh', dùng Bàn phím 1 chạm bên dưới, hoặc vào Cài đặt -> " +
+  "Cài đặt chung -> Bàn phím -> Bật Đọc chính tả (Tiếng Việt).";
+function sttStudio(chu, loi) { const o = $("studio_status_line"); o.textContent = chu || ""; o.classList.toggle("loi", !!loi); }
+function noiStudio(chu) { const o = $("o_studio_text"); o.value += String(chu || ""); }   // nối thẳng - KHÔNG focus (không bật bàn phím)
+function moThuAm(dich) { STUDIO.dich = dich || null; $("hop_thu_am").hidden = false; sttStudio(laIOS() && !window.LARCAndroid ?
+  "Bấm 🔴 rồi đọc (iPhone: đọc từng câu, mỗi câu bấm lại), hoặc dùng các nút từ khóa bên dưới." : "Bấm 🔴 rồi đọc liền một mạch, hoặc dùng các nút từ khóa bên dưới.");
+  veTheStudio(); veAmThanh(); }
+function dongThuAm() { dungThuAm(); dungGhiAm(); $("hop_thu_am").hidden = true; STUDIO.dich = null; NOI.dich = null; }
+function veTheStudio() { const tab = $("studio_tab"), hop = $("studio_chip"); tab.textContent = ""; hop.textContent = ""; hop.classList.toggle("so", STUDIO.the === "so");
+  for (const k in TU_KHOA_STUDIO) tab.appendChild(el("button", {type: "button", cls: k === STUDIO.the ? "chon" : "", text: TU_KHOA_STUDIO[k][0],
+    onclick: () => { STUDIO.the = k; veTheStudio(); }}));
+  for (const c of TU_KHOA_STUDIO[STUDIO.the][1]) hop.appendChild(el("button", {type: "button", text: c === "\n- " ? "↵ -" : c.trim() || c,
+    onclick: () => noiStudio(c)})); }
+function trangThaiThu(dang) { const b = $("b_studio_rec"); b.classList.toggle("dang", !!dang); b.textContent = dang ? "⏹ DỪNG THU ÂM" : "🔴 BẤM THU ÂM TRỰC TIẾP";
+  $("studio_wave").hidden = !dang; }
+// thu âm trực tiếp -> chữ nối vào ô của trung tâm
+function batThuAm() { if (STUDIO.rec || NOI.android) { dungThuAm(); return; }
+  if (!dongYGiongNoi()) return;
+  if (window.LARCAndroid && window.LARCAndroid.batDauGiongNoi) { NOI.dich = chu => noiStudio(chuanHoaTiengNoi(chu) + " "); trangThaiThu(true);
+    sttStudio("Đang nghe…"); window.LARCAndroid.batDauGiongNoi(); return; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { sttStudio(laIOS() ? CANH_BAO_IPHONE : "Trình duyệt này không có nhận dạng giọng nói: dùng 📼 Ghi file âm thanh hoặc bàn phím từ khóa bên dưới.", 1); return; }
+  const r = new SR(); r.lang = "vi-VN"; r.interimResults = true; r.continuous = !laIOS(); r.maxAlternatives = 1; STUDIO.rec = r; STUDIO.chan = false;
+  trangThaiThu(true); sttStudio("Đang nghe…");
+  r.onresult = e => { let tam = ""; for (let i = e.resultIndex; i < e.results.length; i++) { const x = e.results[i];
+    if (x.isFinal) noiStudio(chuanHoaTiengNoi(x[0].transcript) + " "); else tam += x[0].transcript; } sttStudio(tam ? "… " + tam : "Đang nghe…"); };
+  r.onerror = e => { const ly = e.error;
+    if (ly === "not-allowed" || ly === "service-not-allowed") { STUDIO.chan = true; sttStudio(laIOS() ? CANH_BAO_IPHONE :
+      "⚠️ Trình duyệt chặn micrô / nhận dạng giọng nói: cho phép micrô cho trang này, hoặc dùng 📼 Ghi file âm thanh / bàn phím từ khóa.", 1); }
+    else if (ly === "network") sttStudio("⚠️ Máy chưa có gói tiếng Việt ngoại tuyến nên cần mạng: bật 4G / Wi-Fi, hoặc dùng 📼 Ghi file âm thanh.", 1);
+    else if (ly === "no-speech") sttStudio("Không nghe thấy tiếng: bấm 🔴 rồi đọc gần điện thoại hơn.");
+    else if (ly !== "aborted") sttStudio("⚠️ Lỗi nhận dạng giọng nói: " + ly, 1); };
+  r.onend = () => { STUDIO.rec = null; trangThaiThu(false); if (!STUDIO.chan && !$("studio_status_line").classList.contains("loi")) sttStudio("Đã dừng. Bấm 🔴 để đọc tiếp."); };
+  try { r.start(); } catch (e) { STUDIO.rec = null; trangThaiThu(false); sttStudio(laIOS() ? CANH_BAO_IPHONE : "⚠️ Không bắt đầu thu âm được: " + e.message, 1); } }
+function dungThuAm() { if (STUDIO.rec) try { STUDIO.rec.stop(); } catch (e) { /* đã dừng */ }
+  if (NOI.android && window.LARCAndroid && window.LARCAndroid.dungGiongNoi) window.LARCAndroid.dungGiongNoi(); }
+// ghi file âm thanh (chạy cả khi iPhone tắt Đọc chính tả): lưu trên máy theo hộ, nghe lại để chép biên bản
+async function batGhiAm() { if (STUDIO.ghi) { dungGhiAm(); return; }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder === "undefined") {
+    sttStudio("⚠️ Trình duyệt này không ghi âm được (cần Safari / Chrome bản mới, trang https).", 1); return; }
+  let luong; try { luong = await navigator.mediaDevices.getUserMedia({audio: true}); }
+  catch (e) { sttStudio("⚠️ Chưa cho phép micrô: " + (laIOS() ? "Cài đặt → trình duyệt đang dùng → Micrô → Cho phép, rồi mở lại trang." :
+    "cho phép micrô cho trang / ứng dụng rồi bấm lại.") + " (" + (e.name || e.message) + ")", 1); return; }
+  const kieu = ["audio/mp4", "audio/webm;codecs=opus", "audio/webm", "audio/ogg"].find(k => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(k)) || "";
+  const mr = kieu ? new MediaRecorder(luong, {mimeType: kieu}) : new MediaRecorder(luong), manh = [], bd = Date.now();
+  STUDIO.ghi = {mr, luong, bd, dem: setInterval(() => { const g = Math.round((Date.now() - bd) / 1000);
+    $("b_studio_audio").textContent = "⏹ Dừng ghi " + Math.floor(g / 60) + ":" + String(g % 60).padStart(2, "0"); }, 500)};
+  mr.ondataavailable = e => { if (e.data && e.data.size) manh.push(e.data); };
+  mr.onstop = async () => { const kt = mr.mimeType || kieu || "audio/webm", blob = new Blob(manh, {type: kt}), giay = Math.round((Date.now() - bd) / 1000);
+    if (!blob.size) { sttStudio("⚠️ Không ghi được âm thanh.", 1); return; }
+    const ho = ST.chon, ten = "ghi_am_" + (ho || "chua_ho") + "_" + new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14) + (/mp4/.test(kt) ? ".m4a" : /ogg/.test(kt) ? ".ogg" : ".webm");
+    await IDB.them({khoa: KHOA_AM(ho), ten, du_lieu: blob, kieu: kt, giay, luc: new Date().toISOString()});
+    sttStudio("Đã lưu " + ten + " (" + giay + " giây)" + (ho ? " vào hồ sơ hộ đang chọn." : " - chưa chọn hộ.")); veAmThanh(); };
+  mr.start(); $("b_studio_audio").classList.add("dang"); sttStudio("Đang ghi âm… đọc biên bản, bấm ⏹ khi xong."); }
+function dungGhiAm() { const g = STUDIO.ghi; if (!g) return; STUDIO.ghi = null; clearInterval(g.dem);
+  try { if (g.mr.state !== "inactive") g.mr.stop(); } catch (e) { /* đã dừng */ }
+  for (const t of g.luong.getTracks()) t.stop(); const b = $("b_studio_audio"); b.classList.remove("dang"); b.textContent = "📼 Ghi file âm thanh"; }
+async function veAmThanh() { const hop = $("studio_am_ds"); for (const a of hop.querySelectorAll("audio")) URL.revokeObjectURL(a.src); hop.textContent = "";
+  const ds = await IDB.ds(KHOA_AM(ST.chon)); if (!ds.length) return;
+  hop.appendChild(el("div", {cls: "ghi", text: "File ghi âm của " + (ST.chon ? "hộ đang chọn" : "chưa gắn hộ") + " (lưu trên điện thoại, nghe lại để chép biên bản):"}));
+  for (const r of ds.slice().reverse()) { const a = el("audio", {}); a.controls = true; a.preload = "metadata";
+    if (r.du_lieu instanceof Blob) a.src = URL.createObjectURL(r.du_lieu);
+    hop.appendChild(el("div", {cls: "am"}, [a, el("button", {cls: "xoa nho", type: "button", text: "🗑", title: "Xóa " + r.ten,
+      onclick: async () => { if (!confirm("Xóa file ghi âm " + r.ten + "?")) return; await IDB.xoa(r.id); veAmThanh(); }})])); } }
+// hoàn tất: chữ của trung tâm -> ô nhập chính (bóc tách tự động) / chỉ chèn / xóa trắng
+function studioXong() { const chu = $("o_studio_text").value.trim(); if (!chu) { sttStudio("Chưa có chữ: bấm 🔴 thu âm hoặc chọn từ khóa.", 1); return; }
+  const d = STUDIO.dich; $("o_studio_text").value = ""; dongThuAm(); (d || (x => themVaoAI(x)))(chu); }
+function studioChen() { const chu = $("o_studio_text").value.trim(); if (!chu) { sttStudio("Chưa có chữ để chèn.", 1); return; }
+  const o = $("ai_chu"); o.value = (o.value.trim() ? o.value.trim() + "\n" : "") + chu; $("o_studio_text").value = ""; dongThuAm();
+  if (!dangNgang() && ST.the !== TRANG_AI) moThe(TRANG_AI); bao("Đã chèn vào ô nhập - bấm ✨ Phân tách khi đọc xong."); }
 const KHOA_DONG_Y = "larc_field_dong_y_giong_noi";
 function dongYGiongNoi() { try { if (localStorage.getItem(KHOA_DONG_Y)) return true; } catch (e) { /* bỏ qua */ }
   const ok = confirm("Nhập giọng nói dùng bộ nhận dạng giọng nói của điện thoại (Google trên Android, Apple / Siri trên iPhone).\n\n" +
@@ -859,7 +957,8 @@ function dongYGiongNoi() { try { if (localStorage.getItem(KHOA_DONG_Y)) return t
     "kể cả họ tên, số CCCD bạn đọc. Ứng dụng LARC không gửi dữ liệu nào khác lên mạng.\n\nTiếp tục dùng giọng nói?");
   if (ok) try { localStorage.setItem(KHOA_DONG_Y, "1"); } catch (e) { /* bỏ qua */ }
   return ok; }
-function hienSong(co, chu) { $("song_am").hidden = !co; if (chu) $("song_chu").textContent = chu; $("b_hero_noi").classList.toggle("dang_nghe", !!co); }
+function hienSong(co, chu) { if (!$("hop_thu_am").hidden) { trangThaiThu(co); if (chu) sttStudio(chu); if (!co) NOI.android = false; return; }
+  $("song_am").hidden = !co; if (chu) $("song_chu").textContent = chu; $("b_hero_noi").classList.toggle("dang_nghe", !!co); }
 function khongCoGiongNoi() { const adr = window.LARCAndroid && window.LARCAndroid.moCuaHang;
   if (adr && confirm("Điện thoại này chưa có bộ nhận dạng giọng nói (thường gặp ở máy không có ứng dụng Google, máy giả lập).\n\n" +
     "Cài \"Dịch vụ lời nói của Google\" (Speech Services by Google, miễn phí) trên CH Play rồi bấm 🎙️ lại? Sau khi cài, nên tải gói tiếng Việt " +
@@ -867,38 +966,24 @@ function khongCoGiongNoi() { const adr = window.LARCAndroid && window.LARCAndroi
     window.LARCAndroid.moCuaHang("com.google.android.tts"); return; }
   bao("Máy chưa có bộ nhận dạng giọng nói: chạm vào ô chữ rồi bấm micro 🎤 trên bàn phím (Gboard / bàn phím iPhone), hoặc gõ / dán.", 1);
   if (!dangNgang()) moThe(TRANG_AI); $("ai_chu").focus(); }
-// dich(chữ): nơi nhận chữ (mặc định đưa vào ô phân tách); bấm lần nữa khi đang nghe = dừng
-function batDauNoi(dich) { if (NOI.rec || NOI.android) { dungNoi(); return; }
-  if (!window.LARCAndroid && laIOS()) { docChinhTa(dich); return; }
-  if (!dongYGiongNoi()) return; NOI.dich = dich || null; NOI.bi_chan = false;
-  if (window.LARCAndroid && window.LARCAndroid.batDauGiongNoi) { window.LARCAndroid.batDauGiongNoi(); return; }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) { NOI.dich = null; khongCoGiongNoi(); return; }
-  const r = new SR(); r.lang = "vi-VN"; r.interimResults = true; r.continuous = true; r.maxAlternatives = 1; NOI.rec = r; NOI.chu = "";
-  hienSong(true, "Đang nghe… đọc liền một mạch, bấm Xong khi đọc hết");
-  r.onresult = e => { let cuoi = "", tam = ""; for (let i = 0; i < e.results.length; i++) { const x = e.results[i];
-    if (x.isFinal) cuoi += x[0].transcript + " "; else tam += x[0].transcript; } NOI.chu = cuoi; $("song_chu").textContent = (cuoi + tam).trim() || "Đang nghe…"; };
-  r.onerror = e => { const ly = e.error;
-    if (ly === "not-allowed" || ly === "service-not-allowed") NOI.bi_chan = true;
-    else if (ly === "network") bao("Máy chưa có gói tiếng Việt ngoại tuyến nên cần mạng: dùng micro 🎤 trên bàn phím.", 1);
-    else if (ly !== "no-speech" && ly !== "aborted") bao("Lỗi nhận dạng giọng nói: " + ly, 1); };
-  r.onend = () => { const chu = NOI.chu.trim(); NOI.rec = null; hienSong(false);
-    if (NOI.bi_chan && !chu) { const d = NOI.dich; NOI.dich = null; NOI.bi_chan = false;
-      docChinhTa(d, "Trình duyệt này chặn nhận dạng giọng nói của trang web. Chạm vào ô dưới, bấm micrô 🎙 trên bàn phím rồi đọc; xong bấm Xong."); return; }
-    if (chu) nhanGiongNoi(chu); else NOI.dich = null; };
-  try { r.start(); } catch (e) { NOI.rec = null; hienSong(false); khongCoGiongNoi(); } }
+// dich(chữ): nơi nhận chữ khi bấm "Đưa vào ô nhập" (mặc định ô phân tách); mọi nút 🎙 mở trung tâm thu âm
+function batDauNoi(dich) { moThuAm(dich); }
 function dungNoi() { if (NOI.rec) try { NOI.rec.stop(); } catch (e) { /* đã dừng */ }
   if (NOI.android && window.LARCAndroid && window.LARCAndroid.dungGiongNoi) window.LARCAndroid.dungGiongNoi(); }
-function nhanGiongNoi(chu) { const d = NOI.dich || (x => themVaoAI(x)); NOI.dich = null; d(String(chu || "")); }
+function nhanGiongNoi(chu) { const d = NOI.dich || (x => themVaoAI(x)); if ($("hop_thu_am").hidden) NOI.dich = null; d(String(chu || ""));
+  if (!$("hop_thu_am").hidden) sttStudio("Đã nhận. Bấm 🔴 để đọc tiếp, hoặc ⚡ để bóc tách."); }
 // bản .apk: màn hình nhập giọng nói của Google trả chữ về đây; máy không có màn hình đó: ứng dụng nghe thẳng qua dịch vụ nhận dạng
 // (SpeechRecognizer) - báo trạng thái (nghe / xu_ly) và chữ đang nghe để hiện sóng âm như bản PWA
 window.LARC_nhanGiongNoiAndroid = chu => { NOI.android = false; hienSong(false); nhanGiongNoi(chu); };
 window.LARC_giongNoiTrangThai = tt => { NOI.android = true; hienSong(true, tt === "xu_ly" ? "Đang nhận dạng…" : "Đang nghe… đọc liền một mạch, bấm Xong khi đọc hết"); };
-window.LARC_giongNoiTam = chu => { if (NOI.android) $("song_chu").textContent = chu; };
+window.LARC_giongNoiTam = chu => { if (!NOI.android) return; if (!$("hop_thu_am").hidden) sttStudio("… " + chu); else $("song_chu").textContent = chu; };
 const LOI_GIONG_NOI = {quyen: "Chưa cho phép dùng micro: Cài đặt → Ứng dụng → LARC Mobile → Quyền → Micro → Cho phép.",
   mang: "Cần mạng, hoặc tải gói tiếng Việt ngoại tuyến: Cài đặt → Google → Giọng nói → Nhận dạng giọng nói ngoại tuyến → Tiếng Việt.",
   ngon_ngu: "Bộ nhận dạng của máy chưa có tiếng Việt: tải gói Tiếng Việt (Cài đặt → Google → Giọng nói → Ngôn ngữ / Nhận dạng ngoại tuyến).",
   khong_nghe: "Không nghe rõ: bấm 🎙️ rồi đọc lại, gần điện thoại hơn."};
-window.LARC_giongNoiLoi = ly => { NOI.dich = null; NOI.android = false; hienSong(false);
+window.LARC_giongNoiLoi = ly => { const mo = !$("hop_thu_am").hidden; if (!mo) NOI.dich = null; NOI.android = false; hienSong(false);
+  if (mo && ly !== "khong_co") { if (ly && ly !== "huy") sttStudio("⚠️ " + (LOI_GIONG_NOI[ly] || "Nhận dạng giọng nói lỗi (" + ly + ").") +
+    " Có thể dùng 📼 Ghi file âm thanh hoặc bàn phím từ khóa.", 1); return; }
   if (ly === "khong_co") khongCoGiongNoi(); else if (LOI_GIONG_NOI[ly]) bao(LOI_GIONG_NOI[ly], 1);
   else if (ly && ly !== "huy") bao("Nhận dạng giọng nói lỗi (" + ly + "): thử lại, hoặc gõ / dán vào ô chữ.", 1); };
 
@@ -1714,13 +1799,13 @@ function veTatCa() { veKpi(); veThe(); veHoSo(); bangDong("bang_nha", laNha); ba
   const p = theHien(); if (p === 4) veAnh(); if (p === 6) veXuat(); }
 // nút Back (bản .apk) / Esc: đóng ảnh phóng to / ngăn tìm / dừng nghe -> về màn hình AI (dọc) hoặc mục Hồ sơ (ngang); đang ở đó: ứng dụng chạy nền
 window.LARC_quayLaiChinh = () => { if (dongXemAnh()) return true; if (!$("ngan_tim").hidden) { $("ngan_tim").hidden = true; return true; }
-  if (!$("doc_ct").hidden) { dongDocChinhTa(false); return true; }
+  if (!$("hop_thu_am").hidden) { dongThuAm(); return true; }
   if (NOI.rec || NOI.android) { dungNoi(); return true; }
   if (dangNgang()) { if (thePhai() !== 0) { moThe(0); return true; } return false; }
   if (ST.the !== TRANG_AI) { moThe(TRANG_AI); return true; } return false; };
 function tenFile(t) { return (boDau(t).replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "") || "ho") + ".json"; }
 async function taoKetQua(dsKhoa, kemAnh) {
-  const ra = {phien_ban: PHIEN_BAN_PHIEU, ung_dung: "LARC Mobile 1.3.0", du_an: DU.du_an, luc: new Date().toISOString(), kinh_tuyen: DU.kinh_tuyen,
+  const ra = {phien_ban: PHIEN_BAN_PHIEU, ung_dung: "LARC Mobile 1.3.1", du_an: DU.du_an, luc: new Date().toISOString(), kinh_tuyen: DU.kinh_tuyen,
     ket_qua: {}, ho_dan: {}, dat_dai: {}, anh: {}};
   for (const k of dsKhoa) { const h = hoST(k), g = hoGoc(k) || {};
     ra.ket_qua[k] = h.dong.map(d => { const x = Object.assign({}, d); delete x.nhom; delete x.luc; delete x.tu_bb; return x; });
@@ -1775,7 +1860,11 @@ function khoiDong() {
   $("a_hero").addEventListener("change", async e => { const fs = [...e.target.files]; e.target.value = ""; CHUP_HERO = false;
     for (const f of fs) { try { await nhanAnhHero(await docAnh(f), f.name); } catch (er) { bao("Không đọc được ảnh " + f.name, 1); } } });
   $("b_hero_noi").addEventListener("click", () => batDauNoi()); $("b_ai_noi").addEventListener("click", () => batDauNoi()); $("b_dung_noi").addEventListener("click", dungNoi);
-  $("b_doc_ct_xong").addEventListener("click", () => dongDocChinhTa(true)); $("b_doc_ct_huy").addEventListener("click", () => dongDocChinhTa(false));
+  $("b_studio_rec").addEventListener("click", batThuAm); $("b_studio_audio").addEventListener("click", batGhiAm);
+  $("b_studio_sample").addEventListener("click", () => noiStudio(($("o_studio_text").value.trim() ? "\n" : "") + MAU_DOC_CHUAN));
+  $("b_studio_done").addEventListener("click", studioXong); $("b_studio_insert").addEventListener("click", studioChen);
+  $("b_studio_clear").addEventListener("click", () => { $("o_studio_text").value = ""; sttStudio(""); });
+  $("b_studio_dong").addEventListener("click", dongThuAm);
   for (const b of document.querySelectorAll(".nut_doc")) b.addEventListener("click", () => batDauNoi(chu => themVaoAI(chu, b.dataset.cat)));
   $("b_ai_tach").addEventListener("click", () => { if (!$("ai_chu").value.trim()) { bao("Chưa có nội dung: đọc, gõ hoặc dán biên bản.", 1); return; } phanTichVaHien(); });
   $("b_ai_xoa").addEventListener("click", () => { $("ai_chu").value = ""; AI.items = []; AI.uu_tien = ""; if (dangSua("bb")) huySua(); veAI(); });
@@ -1831,6 +1920,6 @@ function khoiDong() {
 window.LARC = {DU, get ST() { return ST; }, bieuThuc, taoKetQua, docKmlBytes, VN, chonHo, themDong, cacThua, thuaTai, ganNhat, BD, veBanDo, vuaKhung, lamRo,
   phanTichDongNhanhJS, phanTichThongMinhAI, chuanHoaTiengNoi, phanTichQRCCCD, duaAI, giaDong, themVaoAI, AI, apBoCuc, moThe, layBieuThuc,
   doiNen, luuNenKhu, NEN_DB, get NEN_LUU() { return NEN_LUU; }, O_NEN,
-  goiYLoaiNhaTheoKetCau, khoaLoaiNha, suaFontKml, napBanDo, LOP, doiTuongTai, hienDoiTuong, veBangKml, loaiNhan, lamSachXml, loaiCay, mucCay, mucCayTheo, chuTamTinh, suaDong, duaDong, thuaHoNay, timTrenBanDo, NEN};
+  goiYLoaiNhaTheoKetCau, khoaLoaiNha, STUDIO, TU_KHOA_STUDIO, IDB, suaFontKml, napBanDo, LOP, doiTuongTai, hienDoiTuong, veBangKml, loaiNhan, lamSachXml, loaiCay, mucCay, mucCayTheo, chuTamTinh, suaDong, duaDong, thuaHoNay, timTrenBanDo, NEN};
 khoiDong();
 </script></body></html>
