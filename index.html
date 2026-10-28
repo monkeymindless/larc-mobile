@@ -198,7 +198,7 @@ body.toan_bd #tt_thua{position:absolute;left:6px;right:56px;bottom:6px;max-heigh
 <div id="app">
 <header><img alt="LARC" src="icon-180.png"/><div class="chu"><div class="ten">LARC Mobile</div>
 <div class="phu" title="Phương án bồi thường, hỗ trợ, tái định cư · kiểm đếm thực địa, không cần mạng">Kiểm đếm thực địa</div></div>
-<span class="huy">v1.4.4</span><button class="doi" id="b_xoay" type="button">🔄 Xoay ngang</button>
+<span class="huy">v1.0.32</span><button class="doi" id="b_xoay" type="button">🔄 Xoay ngang</button>
 <button class="doi" id="b_doi_du_an" type="button" style="display:none">Dự án</button></header>
 <div class="ho_bar" id="ho_bar"><button class="phu" id="b_truoc" type="button" title="Hộ trước">◀</button>
 <select id="cb_ho" aria-label="Chọn hộ"></select><button class="phu" id="b_sau" type="button" title="Hộ sau">▶</button>
@@ -350,7 +350,7 @@ Phần mềm tự tìm hộ theo CCCD, tờ / thửa (lô rừng), họ tên; h�
 
 <div id="man_chao"><button class="phu" id="c_quay_lai" type="button" style="display:none;margin-bottom:8px">← Quay lại dự án đang mở</button>
 <div class="dau"><img alt="LARC" src="icon-180.png"/><div><h1>LARC Mobile</h1>
-<div class="ghi">Kiểm đếm thực địa · phiên bản 1.4.4 · chạy không cần mạng</div></div></div>
+<div class="ghi">Kiểm đếm thực địa · phiên bản 1.0.32 · chạy không cần mạng</div></div></div>
 <div class="khung" id="c_khung_doc_lap"><h3>Kiểm đếm độc lập ngay tại hiện trường (không cần file từ máy tính)</h3>
 <p class="ghi">Dùng bộ danh mục đơn giá nhúng sẵn trong ứng dụng; ghi hộ mới bằng nút "+ Hộ mới". Kết quả gửi về máy tính như bình thường
 (phần mềm hỏi thêm hộ mới).</p><label for="c_ten_moi">Tên dự án / khu vực</label><input id="c_ten_moi"/>
@@ -1964,7 +1964,7 @@ window.LARC_quayLaiChinh = () => { if (!$("hop_may_anh").hidden) { dongMayAnh();
   if (ST.the !== TRANG_AI) { moThe(TRANG_AI); return true; } return false; };
 function tenFile(t) { return (boDau(t).replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "") || "ho") + ".json"; }
 async function taoKetQua(dsKhoa, kemAnh) {
-  const ra = {phien_ban: PHIEN_BAN_PHIEU, ung_dung: "LARC Mobile 1.4.4", du_an: DU.du_an, luc: new Date().toISOString(), kinh_tuyen: DU.kinh_tuyen,
+  const ra = {phien_ban: PHIEN_BAN_PHIEU, ung_dung: "LARC Mobile 1.0.32", du_an: DU.du_an, luc: new Date().toISOString(), kinh_tuyen: DU.kinh_tuyen,
     ket_qua: {}, ho_dan: {}, dat_dai: {}, anh: {}};
   for (const k of dsKhoa) { const h = hoST(k), g = hoGoc(k) || {};
     ra.ket_qua[k] = h.dong.map(d => { const x = Object.assign({}, d); delete x.nhom; delete x.luc; delete x.tu_bb; return x; });
