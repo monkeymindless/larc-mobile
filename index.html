@@ -295,7 +295,7 @@ body.che_do_toi .hop_thu_am::before{background:#475569}
 <div id="app">
 <header><img alt="LARC" src="icon-180.png"/><div class="chu"><div class="ten">LARC Mobile</div>
 <div class="phu" title="Phương án bồi thường, hỗ trợ, tái định cư · kiểm đếm thực địa, không cần mạng">Kiểm đếm thực địa</div></div>
-<span class="huy">v1.0.35</span><button class="doi" id="b_xoay" type="button">🔄 Xoay ngang</button><button class="doi" id="b_tuong_phan" type="button"
+<span class="huy">v1.0.36</span><button class="doi" id="b_xoay" type="button">🔄 Xoay ngang</button><button class="doi" id="b_tuong_phan" type="button"
  title="Chế độ ngoài trời nắng: chữ đen, viền đậm (tương phản cao)">☀️<span class="chu_nut"> Nắng</span></button><button class="doi" id="b_ban_dem" type="button"
  title="Chế độ ban đêm chuyên gia: nền tối, đỡ chói mắt">🌙<span class="chu_nut"> Đêm</span></button>
 <button class="doi" id="b_doi_du_an" type="button" style="display:none">Dự án</button></header>
@@ -449,7 +449,7 @@ Phần mềm tự tìm hộ theo CCCD, tờ / thửa (lô rừng), họ tên; h�
 
 <div id="man_chao"><button class="phu" id="c_quay_lai" type="button" style="display:none;margin-bottom:8px">← Quay lại dự án đang mở</button>
 <div class="dau"><img alt="LARC" src="icon-180.png"/><div><h1>LARC Mobile</h1>
-<div class="ghi">Kiểm đếm thực địa · phiên bản 1.0.35 · chạy không cần mạng</div></div></div>
+<div class="ghi">Kiểm đếm thực địa · phiên bản 1.0.36 · chạy không cần mạng</div></div></div>
 <div class="khung" id="c_khung_doc_lap"><h3>Kiểm đếm độc lập ngay tại hiện trường (không cần file từ máy tính)</h3>
 <p class="ghi">Dùng bộ danh mục đơn giá nhúng sẵn trong ứng dụng; ghi hộ mới bằng nút "+ Hộ mới". Kết quả gửi về máy tính như bình thường
 (phần mềm hỏi thêm hộ mới).</p><label for="c_ten_moi">Tên dự án / khu vực</label><input id="c_ten_moi"/>
@@ -2100,7 +2100,7 @@ window.LARC_quayLaiChinh = () => { if (!$("hop_may_anh").hidden) { dongMayAnh();
   if (ST.the !== TRANG_AI) { moThe(TRANG_AI); return true; } return false; };
 function tenFile(t) { return (boDau(t).replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "") || "ho") + ".json"; }
 async function taoKetQua(dsKhoa, kemAnh) {
-  const ra = {phien_ban: PHIEN_BAN_PHIEU, ung_dung: "LARC Mobile 1.0.35", du_an: DU.du_an, luc: new Date().toISOString(), kinh_tuyen: DU.kinh_tuyen,
+  const ra = {phien_ban: PHIEN_BAN_PHIEU, ung_dung: "LARC Mobile 1.0.36", du_an: DU.du_an, luc: new Date().toISOString(), kinh_tuyen: DU.kinh_tuyen,
     ket_qua: {}, ho_dan: {}, dat_dai: {}, anh: {}};
   for (const k of dsKhoa) { const h = hoST(k), g = hoGoc(k) || {};
     ra.ket_qua[k] = h.dong.map(d => { const x = Object.assign({}, d); delete x.nhom; delete x.luc; delete x.tu_bb; return x; });
