@@ -384,6 +384,25 @@ display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13.5px;font-wei
 .hc_bang[hidden]{display:none}.hc_bang span{flex:1 1 180px}
 #tt_gps .gps_tot{color:#15803D}#tt_gps .gps_kha{color:#1D4ED8}#tt_gps .gps_kem{color:#B45309}#tt_gps .gps_rat_kem{color:#B91C1C}
 body.che_do_toi .hop_do_tb{background:#1E293B;color:#F1F5F9;border-color:#334155}body.tuong_phan_cao .hop_do_tb{border:2px solid #000}
+/* 1.1.48 đợt 3: công cụ đo (thanh chế độ trên, kết quả dưới, tâm ngắm giữa bản đồ) + dẫn đường tới thửa */
+.do_bang{position:absolute;left:8px;right:8px;top:8px;z-index:13;display:flex;gap:6px;align-items:center}.do_bang[hidden]{display:none}
+.do_che{flex:1;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none}.do_che::-webkit-scrollbar{display:none}
+.do_che .chip{flex:0 0 auto;white-space:nowrap;padding:5px 11px;box-shadow:0 1px 4px rgba(15,23,42,.2)}.do_bang>button{min-width:44px;display:flex;align-items:center;justify-content:center}
+body.dang_do .chip_nen,body.dan_duong .chip_nen{display:none}
+.tam_ngam{display:none;position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;pointer-events:none;z-index:6;filter:drop-shadow(0 0 1.5px #0F172A)}
+.tam_ngam::before,.tam_ngam::after{content:"";position:absolute;background:#fff}.tam_ngam::before{left:16px;top:0;width:2px;height:34px}.tam_ngam::after{top:16px;left:0;width:34px;height:2px}
+body.dang_do .tam_ngam{display:block}
+.do_kq,.dd_bang{position:absolute;left:8px;right:58px;bottom:24px;z-index:14;background:#fff;border:1px solid var(--vien_nhat);border-radius:16px;padding:10px 12px;
+box-shadow:0 8px 24px rgba(15,23,42,.25);max-height:62%;overflow:auto}.do_kq[hidden],.dd_bang[hidden]{display:none}
+.do_so{font-size:24px;font-weight:800;color:var(--dam);line-height:1.15}.do_phu{font-size:13px;color:var(--chu_phu)}
+.do_nut{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.do_nut button{flex:1 1 auto;min-height:44px;padding:4px 10px}
+.do_dong{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-top:1px solid #EEF2F7;font-size:13.5px}.do_dong b{white-space:nowrap}
+.dd_dau{font-size:13px;color:var(--chu_phu)}.dd_dau b{color:var(--chu);font-size:15px}
+.dd_giua{display:flex;align-items:center;gap:14px;margin:8px 0}.dd_mui{width:76px;height:76px;flex:0 0 76px;border-radius:50%;background:var(--chinh_nhat);
+border:2px solid #BFDBFE;display:flex;align-items:center;justify-content:center;color:var(--chinh)}.dd_mui svg.ic{width:44px;height:44px;fill:currentColor;stroke:none;transition:transform .25s}
+.dd_kc{font-size:30px;font-weight:800;color:var(--dam);line-height:1}.dd_toi{background:#F0FDF4;border-color:#86EFAC}.dd_toi .dd_mui{background:#DCFCE7;border-color:#86EFAC;color:#15803D}
+body.che_do_toi .do_kq,body.che_do_toi .dd_bang{background:#1E293B;color:#F1F5F9;border-color:#334155}body.che_do_toi .do_so,body.che_do_toi .dd_kc{color:#93C5FD}
+body.tuong_phan_cao .do_kq,body.tuong_phan_cao .dd_bang{border:2px solid #000}
 </style></head><body>
 <!-- 1.1.47 giao diện B (người dùng chốt 27/11/2026): biểu tượng nét SVG (không emoji - máy Android cũ hiện ô vuông); dùng <svg class="ic"><use href="#i_…"/></svg> -->
 <svg class="bo_ic" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
@@ -417,6 +436,7 @@ body.che_do_toi .hop_do_tb{background:#1E293B;color:#F1F5F9;border-color:#334155
 <symbol id="i_luu_nen" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 19h16"/></symbol>
 <symbol id="i_du_an" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol>
 <symbol id="i_dong" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i_thuoc" viewBox="0 0 24 24"><path d="M3 17L17 3l4 4L7 21zM7 13l2 2M10 10l2 2M13 7l2 2"/></symbol>
 <symbol id="i_gps" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
 </defs></svg>
 <div id="app">
@@ -542,8 +562,11 @@ gửi kèm file .json. Chạm vào ảnh để xem phóng to và ghi / đọc n�
 <option value="ve_tinh_ten">Vệ tinh + tên đường</option><option value="duong">Đường phố</option><option value="dia_hinh">Địa hình</option></select>
 <div class="lop_bd" id="m_lop" role="group" aria-label="Lớp bản đồ"></div></div>
 <div class="khung_bd"><canvas id="ban_do"></canvas><div class="hc_bang" id="hc_bang" hidden><span id="hc_chu"></span>
-<button class="phu nho" id="b_hc_bo" type="button" hidden>Bỏ dịch cũ</button><button class="phu nho" id="b_hc_huy" type="button">Hủy</button></div><div class="chip_nen" id="m_chip_nen" role="group" aria-label="Nền bản đồ"></div>
-<div class="nut_zoom_bd"><button type="button" class="nut_toan_bd" id="b_cong_cu_bd" aria-label="Công cụ bản đồ" title="Công cụ bản đồ: KML, định vị, tìm thửa, lớp, lưu ảnh nền">☰</button><button type="button" class="nut_toan_bd" id="b_gps_bd" aria-label="Về vị trí GPS" title="Về vị trí đang đứng (bật định vị nếu chưa bật)">◎</button><button type="button" id="b_zoom_cong" aria-label="Phóng to">+</button><button type="button" id="b_zoom_tru" aria-label="Thu nhỏ">−</button><button type="button" id="b_zoom_vua" aria-label="Vừa khung">⛶</button></div></div>
+<button class="phu nho" id="b_hc_bo" type="button" hidden>Bỏ dịch cũ</button><button class="phu nho" id="b_hc_huy" type="button">Hủy</button></div>
+<div class="do_bang" id="do_bang" hidden><div class="do_che" id="do_che" role="group" aria-label="Chế độ đo"></div>
+<button class="phu nho" id="b_do_dong" type="button" aria-label="Thoát đo" title="Thoát đo"><svg class="ic"><use href="#i_dong"/></svg></button></div>
+<div class="tam_ngam" aria-hidden="true"></div><div class="do_kq" id="do_kq" hidden></div><div class="dd_bang" id="dd_bang" hidden></div><div class="chip_nen" id="m_chip_nen" role="group" aria-label="Nền bản đồ"></div>
+<div class="nut_zoom_bd"><button type="button" class="nut_toan_bd" id="b_cong_cu_bd" aria-label="Công cụ bản đồ" title="Công cụ bản đồ: KML, định vị, tìm thửa, lớp, lưu ảnh nền">☰</button><button type="button" class="nut_toan_bd" id="b_gps_bd" aria-label="Về vị trí GPS" title="Về vị trí đang đứng (bật định vị nếu chưa bật)">◎</button><button type="button" id="b_do_bd" aria-label="Đo trên bản đồ" title="Đo khoảng cách, diện tích, kiểm tra DT thửa"><svg class="ic"><use href="#i_thuoc"/></svg></button><button type="button" id="b_zoom_cong" aria-label="Phóng to">+</button><button type="button" id="b_zoom_tru" aria-label="Thu nhỏ">−</button><button type="button" id="b_zoom_vua" aria-label="Vừa khung">⛶</button></div></div>
 <div class="chan_bd" id="chan_bd"><div id="tt_gps" class="so"></div><div class="ban_quyen_nen" id="ban_quyen_nen"></div></div>
 <div id="ngan_bd_duoi"><div class="hang_nut" style="margin-top:4px"><button class="phu nho" id="b_luu_nen" type="button">💾 Lưu ảnh nền khu dự án (xem khi mất sóng)</button>
 <button class="xoa nho" id="b_xoa_nen" type="button">Xóa ảnh nền đã lưu</button><span class="ghi" id="m_tien_do"></span></div>
@@ -603,7 +626,8 @@ Phần mềm tự tìm hộ theo CCCD, tờ / thửa (lô rừng), họ tên; h�
 <div class="them_luoi"><button class="doi" type="button" data-them="kml"><svg class="ic"><use href="#i_tep"/></svg>Nạp KML / KMZ</button>
 <button class="doi" type="button" data-them="cong_cu"><svg class="ic"><use href="#i_ban_do"/></svg>Công cụ bản đồ</button>
 <button class="doi" type="button" data-them="nen"><svg class="ic"><use href="#i_luu_nen"/></svg>Lưu ảnh nền</button>
-<button class="doi" type="button" data-them="hc"><svg class="ic"><use href="#i_gps"/></svg>Hiệu chỉnh lệch KML</button></div>
+<button class="doi" type="button" data-them="hc"><svg class="ic"><use href="#i_gps"/></svg>Hiệu chỉnh lệch KML</button>
+<button class="doi" type="button" data-them="tim_duong"><svg class="ic"><use href="#i_mui"/></svg>Dịch vụ tìm đường</button></div>
 <div class="them_nhom">Dự án</div>
 <div class="them_luoi"><button class="doi" id="b_doi_du_an" type="button" style="display:none"><svg class="ic"><use href="#i_du_an"/></svg>Đổi dự án</button>
 <button class="doi" type="button" data-them="ho_moi"><svg class="ic"><use href="#i_cong"/></svg>Hộ mới</button></div></div></div>
@@ -1992,7 +2016,8 @@ function hienDoiTuong(o) { BD.chon = o; const hop = $("tt_thua"); hop.textConten
     dongTT(hop, [["Số thửa", o.so_thua], ["Số tờ", o.so_to ? o.so_to + " (nhãn \"Tờ số\" cách " + soVN(o.cach_to, 0) + " m - kiểm tra lại)" : "chưa có nhãn tờ gần - ghi theo hồ sơ"],
       ["Loại đất", o.chu_ld], ["DT nguyên thửa", o.chu_dt ? o.chu_dt + " m²" : ""], ["DT một phần", o.chu_dt_th ? o.chu_dt_th + " m² (nhãn gần số thửa nhất, " + CHUA_DOI_CHIEU_RANH + ")" : ""], ["Lớp CAD", lopCad(o.neo)],
       ...toaDoTT(o.lat, o.lon)]);
-    hop.appendChild(el("button", {type: "button", text: "➕ Đưa thửa đất này vào hồ sơ hộ đang chọn", onclick: () => duaThuaVaoHo(o)})); return; }
+    hop.appendChild(el("div", {cls: "do_nut"}, [el("button", {type: "button", cls: "phu", onclick: () => batDanDuong({x: o.x, y: o.y, ten: tenDich(o.so_to, o.so_thua)})},
+      [ic("mui"), " Dẫn đường"]), el("button", {type: "button", text: "Đưa thửa này vào hồ sơ hộ đang chọn", onclick: () => duaThuaVaoHo(o)})])); return; }
   if (o.kieu === "diem") { const ten = {moc: "Mốc ranh", ghi_chu: "Ghi chú", ld: "Loại đất", dt: "Diện tích", dt_th: "Diện tích một phần", to: "Số tờ", thua: "Số thửa"}[o.loai] || "Nhãn";
     hop.appendChild(el("b", {text: ten + ": " + o.chu})); dongTT(hop, [["Lưu ý", o.loai === "dt_th" ? "Một phần của thửa, " + CHUA_DOI_CHIEU_RANH : ""], ["Lớp CAD", lopCad(o)], ...toaDoTT(o.lat, o.lon), ...Object.entries(o.du_lieu || {})]);
     if (o.loai === "moc") hop.appendChild(el("button", {type: "button", text: "➕ Đưa mốc ranh này vào ghi chú hộ đang chọn", onclick: () => duaMocVaoHo(o)})); return; }
@@ -2171,6 +2196,7 @@ function veBanDo() { $("b_gps_bd").classList.toggle("dang", BD.theo !== null); l
     g.beginPath(); g.arc(px, py, 6, 0, 7); g.fillStyle = "#F59E0B"; g.fill(); g.lineWidth = 2; g.strokeStyle = "#fff"; g.stroke();
     g.font = "bold 11px Segoe UI, sans-serif"; g.textAlign = "left"; g.lineWidth = 3; g.strokeStyle = "rgba(255,255,255,.9)"; g.strokeText(t, px + 9, py + 4);
     g.fillStyle = "#0F172A"; g.fillText(t, px + 9, py + 4); }
+  if (DO) veDoTrenBD(g, raX, raY); if (DD) veDDTrenBD(g, raX, raY);
   if (HC && HC.p1) { const x = raX(HC.p1[0]), y = raY(HC.p1[1]); g.beginPath(); g.arc(x, y, 9, 0, 7); g.lineWidth = 3; g.strokeStyle = "#DC2626"; g.stroke();
     g.beginPath(); g.moveTo(x - 14, y); g.lineTo(x + 14, y); g.moveTo(x, y - 14); g.lineTo(x, y + 14); g.lineWidth = 1.5; g.stroke(); }
   if (BD.gps) { const [x, y] = raMH(BD.gps.lat, BD.gps.lon, w, h); g.beginPath(); g.arc(x, y, Math.max(6, BD.gps.acc * BD.k), 0, 7); g.fillStyle = "rgba(59,111,206,.15)"; g.fill();
@@ -2197,7 +2223,9 @@ function hienThua(t) { BD.chon = t; const hop = $("tt_thua"); hop.textContent = 
   const ho = t.ma_ho ? hoGoc(t.ma_ho) : null;
   hop.appendChild(el("div", {}, [el("b", {text: t.ten || ("Thửa " + t.so_thua)}), el("div", {cls: "ghi", text: (t.so_to ? "Tờ " + t.so_to + " · thửa " + t.so_thua + " · " : "") +
     (ho ? "Hộ " + ho.ten + " · " + ((MAU[t.trang_thai] || [""])[0] || "") : "Chưa gắn hộ trong dự án")})]));
-  if (ho) hop.appendChild(el("button", {type: "button", text: "Mở hồ sơ kiểm đếm hộ này", onclick: () => { chonHo(ho.khoa); moThe(0); }})); }
+  const nut = el("div", {cls: "do_nut"}, [el("button", {type: "button", cls: "phu", onclick: () => batDanDuong({thua: t, ten: tenDich(t.so_to, t.so_thua, t.ten)})}, [ic("mui"), " Dẫn đường"]),
+    el("button", {type: "button", cls: "phu", onclick: () => batDo("dt", t)}, [ic("thuoc"), " Kiểm DT"])]);
+  if (ho) nut.appendChild(el("button", {type: "button", text: "Mở hồ sơ kiểm đếm hộ này", onclick: () => { chonHo(ho.khoa); moThe(0); }})); hop.appendChild(nut); }
 function capNhatGPS() { const tt = $("tt_gps"); tt.textContent = "";
   if (!BD.gps) { if (BD.theo !== null) tt.textContent = VT.trang_thai === "tat_gps" ? "Vị trí (GPS) của máy đang tắt" : "Đang tìm vệ tinh… (ra chỗ thoáng)"; return; }
   const g = BD.gps, [cl, lop] = chatLuongGPS(g.acc), cu = Date.now() - g.luc_ms > 30000;
@@ -2250,7 +2278,8 @@ function nhanViTri(m) { m.lat = Number(m.lat); m.lon = Number(m.lon); m.acc = Nu
   const s = locViTri(m); VT.trang_thai = "co";
   if (s) { const dau = !BD.gps; BD.gps = {lat: s.lat, lon: s.lon, acc: Math.sqrt(s.v), luc_ms: Date.now()};
     if (dau && !cacThua().length) { BD.mac_dinh = false; vuaKhung(); } if (BD.cho_tam) { BD.cho_tam = false; tamGPS(); } }
-  capNhatGPS(); veBanDo(); if (theHien() === 5) henDsThua(); if (DO_TB) veDoTb(); }
+  if (s && DO && DO.gps_di) themDiemGps(false);
+  capNhatGPS(); veBanDo(); if (theHien() === 5) henDsThua(); if (DO_TB) veDoTb(); if (DD) veDD(); }
 function chatLuongGPS(acc) { return acc <= 5 ? ["Tốt", "gps_tot"] : acc <= 15 ? ["Khá", "gps_kha"] : acc <= 50 ? ["Kém", "gps_kem"] : ["Rất kém", "gps_rat_kem"]; }
 // ghi tọa độ hộ = TRUNG BÌNH nhiều lần đo (trọng số 1/sai số², bỏ lần lệch > 2,5 lần trung vị) - trước: một lần đo, có thể là điểm cũ 30 giây
 let DO_TB = null; const DO_TB_SO = 10, DO_TB_GIAY = 20;
@@ -2293,6 +2322,8 @@ function ganCuChi() { const cv = $("ban_do"), ngon = new Map(); let keo = null, 
     if (keo) { keo.di = Math.max(keo.di, Math.hypot(e.offsetX - keo.x, e.offsetY - keo.y)); BD.cx = keo.cx - (e.offsetX - keo.x) / BD.k; BD.cy = keo.cy + (e.offsetY - keo.y) / BD.k; veBanDo(); } });
   cv.addEventListener("pointerup", e => { ngon.delete(e.pointerId); if (keo && keo.di < 6) { const [, w, h] = canvasBD(), [x, y] = tuMH(e.offsetX, e.offsetY, w, h);
     if (HC) chamHieuChinh(x, y, e.offsetX, e.offsetY, w, h);
+    else if (DO) chamDo(x, y, e.offsetX, e.offsetY, w, h);
+    else if (DD && DD.cho_cham) { DD.tu = [x, y]; DD.cho_cham = false; DD.tuyen = null; veDD(); veBanDo(); }
     else { const o = doiTuongTai(e.offsetX, e.offsetY, w, h); if (o) hienDoiTuong(o); else hienThua(thuaTaiMer(x, y)); } } keo = null; if (ngon.size < 2) nhip = null; });
   cv.addEventListener("wheel", e => { e.preventDefault(); BD.tu_can = null; BD.k *= e.deltaY < 0 ? 1.25 : 0.8; veBanDo(); }, {passive: false}); }
 
@@ -2390,7 +2421,8 @@ function veThe() { const h = ST.ho[ST.chon] || {}, dong = h.dong || [];
 function veTatCa() { veNutGPS(); veKpi(); veThe(); veHoSo(); bangDong("bang_nha", laNha); bangDong("bang_vkt", laVkt); bangDong("bang_cay", laCay); veBienBan(); veTomTat();
   const p = theHien(); if (p >= 0 && p <= 4 && ANH_HO !== ST.chon) { ANH_HO = ST.chon; veAnh(); } if (p === 6) veXuat(); if (p === 5) henDsThua(); }
 // nút Back (bản .apk) / Esc: đóng ảnh phóng to / ngăn tìm / dừng nghe -> về màn hình AI (dọc) hoặc mục Hồ sơ (ngang); đang ở đó: ứng dụng chạy nền
-window.LARC_quayLaiChinh = () => { if (dongSheet()) return true; if (DO_TB) { ketThucDoTb(true); return true; } if (HC) { huyHieuChinh(); return true; } if (!$("hop_may_anh").hidden) { dongMayAnh(); return true; } if (dongXemAnh()) return true; if (!$("ngan_tim").hidden) { $("ngan_tim").hidden = true; return true; }
+window.LARC_quayLaiChinh = () => { if (dongSheet()) return true; if (DO_TB) { ketThucDoTb(true); return true; } if (HC) { huyHieuChinh(); return true; }
+  if (DD) { tatDanDuong(); return true; } if (DO) { tatDo(); return true; } if (!$("hop_may_anh").hidden) { dongMayAnh(); return true; } if (dongXemAnh()) return true; if (!$("ngan_tim").hidden) { $("ngan_tim").hidden = true; return true; }
   if (!$("hop_thu_am").hidden) { dongThuAm(); return true; }
   if (document.body.classList.contains("mo_ngan_bd")) { moNganBD(false); return true; }
   if (NOI.rec || NOI.android) { dungNoi(); return true; }
@@ -2461,6 +2493,7 @@ function lenhThem(k) { dongSheet();
   if (k === "cong_cu") { moThe(TRANG_CHINH); setTimeout(() => moNganBD(true), 60); return; }
   if (k === "nen") { moThe(TRANG_CHINH); setTimeout(luuNenKhu, 60); return; }
   if (k === "hc") { batHieuChinh(); return; }
+  if (k === "tim_duong") { datDichVuDuong(); return; }
   if (k === "ho_moi") hoMoi(); }
 
 // ---------------------------------------------------------------- 1.1.47 khu Thửa (màn hình chính): danh sách thửa đọc từ bản đồ (bản đồ dự án của LARC máy
@@ -2513,7 +2546,8 @@ function veDsThua() { const hop = $("ds_thua"); if (!hop) return;
     const [tt, lop] = ttThua(x), co = !!sao[x.k];
     const nut_sao = el("button", {cls: "sao" + (co ? " co" : ""), type: "button", title: co ? "Bỏ theo dõi" : "Theo dõi thửa này", "aria-label": co ? "Bỏ theo dõi" : "Theo dõi",
       onclick: e => { e.stopPropagation(); theoDoiThua(x.k); }}, [ic("sao")]);
-    const kc = el("div", {cls: "kc"}); if (x.d !== null && x.d !== undefined) { const mui = ic("mui"); mui.style.transform = "rotate(" + Math.round(x.huong) + "deg)"; kc.append(mui, chuKc(x.d)); }
+    const kc = el("div", {cls: "kc", role: "button", title: "Dẫn đường tới thửa", onclick: e => { e.stopPropagation(); batDanDuong(dichCuaDong(x)); }});
+    if (x.d === null || x.d === undefined) kc.appendChild(ic("mui")); else { const mui = ic("mui"); mui.style.transform = "rotate(" + Math.round(x.huong) + "deg)"; kc.append(mui, chuKc(x.d)); }
     const phu = x.ten_ho || (x.tay ? "Ghi tại chỗ" : x.dt_th ? "DT một phần " + x.dt_th + " m²" : "");
     hop.appendChild(el("div", {cls: "dong_thua" + (BD.chon_k === x.k ? " chon" : ""), "data-k": x.k, role: "button", onclick: () => chonThua(x)}, [nut_sao,
       el("div", {cls: "nd"}, [el("b", {text: (x.to ? x.to + "/" : "Thửa ") + x.thua + (x.loai ? " · " + x.loai : "") + (x.dt ? " · " + x.dt + " m²" : "")}),
@@ -2575,6 +2609,211 @@ function chamHieuChinh(x, y, px, py, w, h) {
 function boHieuChinh() { let co = false; for (const l of LOP) if (!l.goc && l.lech) { dichLop(l, -l.lech[0], -l.lech[1]); delete l.lech; co = true; }
   if (!co) return; KML_DB.luu(); huyHieuChinh(); veBangKml(); bao("Đã bỏ hiệu chỉnh: lớp KML về tọa độ gốc của file."); }
 
+// ---------------------------------------------------------------- 1.1.48 đợt 3: ĐO TRÊN BẢN ĐỒ (người dùng: "đo khoảng cách, đo vùng, đo đa giác (m²), đo đa
+// điểm, kiểm tra diện tích theo vùng - như đo nhanh trên Earth"). Điểm lấy bằng chạm (bắt dính mốc / đỉnh thửa / điểm KML trong 20 px), tâm ngắm giữa
+// bản đồ, hoặc đi bộ quanh ranh bằng GPS. Chiều dài / diện tích tính trên MẶT PHẲNG VN-2000 của dự án (cùng cách tính hồ sơ địa chính; Web Mercator
+// ở vĩ độ 11° phóng đại diện tích ~4%). Số đo chỉ để kiểm tra nhanh - không vào file kết quả (giao ước không đổi), không thay số đo địa chính.
+const CHE_DO_DO = [["kc", "Khoảng cách"], ["da", "Đa điểm"], ["vung", "Vùng"], ["dt", "Kiểm DT"]];
+let DO = null;
+function vnMer(x, y) { const [la, lo] = tuMer(x, y); return VN(la, lo); }
+function dtPhang(v) { let a = 0; for (let i = 0; i < v.length; i++) { const p = v[i], q = v[(i + 1) % v.length]; a += p[0] * q[1] - q[0] * p[1]; } return a / 2; }
+function doDai(ds) { const v = ds.map(([x, y]) => vnMer(x, y)), doan = [];
+  for (let i = 1; i < v.length; i++) doan.push(Math.hypot(v[i][0] - v[i - 1][0], v[i][1] - v[i - 1][1])); return {tong: doan.reduce((a, b) => a + b, 0), doan}; }
+function dtVung(ds) { const v = ds.map(([x, y]) => vnMer(x, y)); let cv = 0; const canh = [];
+  for (let i = 0; i < v.length; i++) { const p = v[i], q = v[(i + 1) % v.length], c = Math.hypot(q[0] - p[0], q[1] - p[1]); canh.push(c); cv += c; }
+  return {dt: Math.abs(dtPhang(v)), chu_vi: cv, canh, vn: v}; }
+// sai số diện tích do sai số từng đỉnh (độc lập): σA = ½·√Σ(σi·Di)², Di = khoảng cách hai đỉnh kề của đỉnh i
+function saiSoDT(v, sai) { let t = 0; for (let i = 0; i < v.length; i++) { const a = v[(i - 1 + v.length) % v.length], b = v[(i + 1) % v.length];
+  t += Math.pow((sai[i] || 0) * Math.hypot(b[0] - a[0], b[1] - a[1]), 2); } return Math.sqrt(t) / 2; }
+function laLoi(v) { let dau = 0; for (let i = 0; i < v.length; i++) { const a = v[i], b = v[(i + 1) % v.length], c = v[(i + 2) % v.length];
+  const z = (b[0] - a[0]) * (c[1] - b[1]) - (b[1] - a[1]) * (c[0] - b[0]); if (Math.abs(z) < 1e-9) continue; const d = Math.sign(z); if (dau && d !== dau) return false; dau = d; }
+  return true; }
+// Sutherland-Hodgman: cắt đa giác chu theo đa giác LỒI cat (tọa độ phẳng)
+function catLoi(chu, cat) { const s = Math.sign(dtPhang(cat)) || 1; let ra = chu.slice();
+  for (let i = 0; i < cat.length && ra.length; i++) { const a = cat[i], b = cat[(i + 1) % cat.length], vao = ra; ra = [];
+    const ben = p => s * ((b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0]));
+    for (let j = 0; j < vao.length; j++) { const p = vao[j], q = vao[(j + 1) % vao.length], dp = ben(p), dq = ben(q);
+      if (dp >= 0) ra.push(p); if ((dp >= 0) !== (dq >= 0)) { const t = dp / (dp - dq); ra.push([p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])]); } } }
+  return ra; }
+// diện tích phần chung hai vùng (tọa độ phẳng VN-2000): một bên lồi -> cắt đúng; cả hai lõm -> đếm lưới 240 x 240 (sai lệch < 1%, ghi "≈")
+function giaoDT(A, B) { if (laLoi(B)) return {dt: Math.abs(dtPhang(catLoi(A, B))), gan_dung: false}; if (laLoi(A)) return {dt: Math.abs(dtPhang(catLoi(B, A))), gan_dung: false};
+  const bb = v => [Math.min(...v.map(p => p[0])), Math.min(...v.map(p => p[1])), Math.max(...v.map(p => p[0])), Math.max(...v.map(p => p[1]))], a = bb(A), b = bb(B);
+  const x0 = Math.max(a[0], b[0]), y0 = Math.max(a[1], b[1]), x1 = Math.min(a[2], b[2]), y1 = Math.min(a[3], b[3]); if (x1 <= x0 || y1 <= y0) return {dt: 0, gan_dung: false};
+  const n = 240, dx = (x1 - x0) / n, dy = (y1 - y0) / n; let dem = 0;
+  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { const x = x0 + (i + 0.5) * dx, y = y0 + (j + 0.5) * dy; if (trongVong(x, y, A) && trongVong(x, y, B)) dem++; }
+  return {dt: dem * dx * dy, gan_dung: true}; }
+// số diện tích trên nhãn bản vẽ: "1.500" / "1.500,5" kiểu Việt Nam, "7078.1" kiểu CAD, "(3600.7)"
+function soNhan(chu) { const t = String(chu || "").trim().replace(/[()\s]/g, ""); if (!t) return null;
+  const n = /^\d{1,3}(\.\d{3})+(,\d+)?$/.test(t) ? Number(t.replace(/\./g, "").replace(",", ".")) : Number(t.replace(",", ".")); return isFinite(n) ? n : null; }
+function nhanCuaThua(t) { const c = mvThua(t); for (const l of LOP) for (const n of l.nhan_thua || [])
+  if (khoaSo(n.so_thua) === khoaSo(t.so_thua) && (trongVong(n.x, n.y, c.v) || (t.so_to && khoaSo(n.so_to) === khoaSo(t.so_to)))) return n; return null; }
+function chuDai(m) { return m < 1000 ? soVN(m, m < 100 ? 2 : 1) + " m" : soVN(m / 1000, 3) + " km"; }
+function chuDT(m2) { return soVN(m2, 1) + " m² · " + soVN(m2 / 10000, 4) + " ha"; }
+function batDo(che_do, thua) { dongSheet(); if (DD) tatDanDuong(); if (HC) huyHieuChinh(); moThe(TRANG_CHINH); moNganBD(false); ntCheDo("bd");
+  DO = {che_do: che_do || "kc", diem: [], sai: [], gps_di: false, vung: null, thua: thua || null};
+  document.body.classList.add("dang_do"); $("do_bang").hidden = false; hienThua(null); veDo(); veBanDo(); }
+function tatDo() { DO = null; document.body.classList.remove("dang_do"); $("do_bang").hidden = true; $("do_kq").hidden = true; ntCheDo(""); veBanDo(); }
+function doiCheDoDo(k) { if (DO.che_do === "vung" && DO.diem.length >= 3) DO.vung = {diem: DO.diem.slice(), sai: DO.sai.slice()};
+  if (k === "vung" && DO.vung) { DO.diem = DO.vung.diem.slice(); DO.sai = DO.vung.sai.slice(); } else if (k !== "dt") { DO.diem = []; DO.sai = []; }
+  DO.che_do = k; if (k !== "dt") DO.gps_di = DO.gps_di && k !== "kc"; veDo(); veBanDo(); }
+function themDiemDo(p, sai) { if (DO.che_do === "dt") return; if (DO.che_do === "kc" && DO.diem.length >= 2) { DO.diem = []; DO.sai = []; }
+  DO.diem.push(p); DO.sai.push(sai); veDo(); veBanDo(); }
+// điểm bắt dính trong 20 px: mốc / nhãn / vòng mốc / đỉnh đường của KML, đỉnh thửa (bản đồ dự án + KML)
+function batDinhDo(px, py, w, h) { const X = x => w / 2 + (x - BD.cx) * BD.k, Y = y => h / 2 - (y - BD.cy) * BD.k; let tot = null, dm = 20;
+  const xet = (x, y) => { const d = Math.hypot(X(x) - px, Y(y) - py); if (d < dm) { dm = d; tot = [x, y]; } };
+  const [x0, y1] = tuMH(px - 20, py - 20, w, h), [x1, y0] = tuMH(px + 20, py + 20, w, h), gan = b => !(b[2] < x0 || b[0] > x1 || b[3] < y0 || b[1] > y1);
+  for (const l of LOP) { for (const a of [...(l.diem || []), ...(l.vong_moc || [])]) xet(a.x, a.y);
+    for (const d of l.duong || []) if (gan(d.bb)) for (let i = 0; i < d.p.length; i += 2) xet(d.p[i], d.p[i + 1]); }
+  for (const t of cacThua()) { const c = mvThua(t); if (gan(c.bb)) for (const [x, y] of c.v) xet(x, y); }
+  return tot; }
+function saiCham() { return 3 / BD.k * Math.cos(tuMer(BD.cx, BD.cy)[0] * Math.PI / 180); }   // chạm lệch ~3 px
+function chamDo(x, y, px, py, w, h) {
+  if (DO.che_do === "dt") { DO.thua = thuaTaiMer(x, y); if (!DO.thua) bao("Chạm vào trong một thửa (đa giác) để kiểm diện tích.", 1); veDo(); veBanDo(); return; }
+  const b = batDinhDo(px, py, w, h); themDiemDo(b || [x, y], b ? 0.1 : saiCham()); }
+function themTamNgam() { const [, w, h] = canvasBD(), b = batDinhDo(w / 2, h / 2, w, h); themDiemDo(b || [BD.cx, BD.cy], b ? 0.1 : saiCham()); }
+function themDiemGps(goc) { const g = BD.gps; if (!g || !DO) { if (goc) bao("Chưa có vị trí GPS.", 1); return; } const p = mer(g.lat, g.lon), cu = DO.diem[DO.diem.length - 1];
+  if (!goc && cu && Math.hypot(p[0] - cu[0], p[1] - cu[1]) * Math.cos(g.lat * Math.PI / 180) < 2) return;   // đi bộ: một điểm mỗi 2 m
+  themDiemDo(p, g.acc); }
+function luiDiemDo() { DO.diem.pop(); DO.sai.pop(); veDo(); veBanDo(); }
+function dtVaoDatHo(dt) { if (!coHo()) return; const ha = $("o_ln").style.display !== "none"; tatDo(); moThe(0);
+  const o = $(ha ? "d_ha" : "d_dt"); o.value = soVN(ha ? dt / 10000 : dt, ha ? 4 : 1); o.dispatchEvent(new Event("input"));
+  setTimeout(() => o.scrollIntoView({block: "center"}), 60); bao("Đã điền DT đo được vào ô Đất: kiểm tra tờ / thửa / loại đất rồi bấm Thêm đất."); }
+function veDo() { if (!DO) return; const che = $("do_che"); che.textContent = "";
+  for (const [k, t] of CHE_DO_DO) che.appendChild(el("button", {type: "button", cls: "chip" + (DO.che_do === k ? " chon" : ""), text: t, onclick: () => doiCheDoDo(k)}));
+  const kq = $("do_kq"); kq.hidden = false; kq.textContent = ""; const n = DO.diem.length, nut = [];
+  const hd = chu => kq.appendChild(el("div", {cls: "do_phu", text: chu}));
+  if (DO.che_do === "dt") { veKiemDT(kq); return; }
+  if ((DO.che_do === "vung" && n < 3) || n < 2) hd((n ? "Đã có " + n + " điểm. " : "") + "Chạm bản đồ để thêm điểm (tự bắt vào mốc / góc thửa gần chỗ chạm), "
+    + "hoặc kéo bản đồ cho tâm ngắm vào đúng chỗ rồi bấm + Tâm ngắm, hoặc Đi bộ GPS quanh ranh.");
+  else if (DO.che_do === "vung") { const r = dtVung(DO.diem), ss = saiSoDT(r.vn, DO.sai);
+    kq.appendChild(el("div", {cls: "do_so so", text: soVN(r.dt, 1) + " m²"}));
+    hd(soVN(r.dt / 10000, 4) + " ha · chu vi " + chuDai(r.chu_vi) + " · " + n + " đỉnh · sai số ước ±" + soVN(ss, ss < 10 ? 1 : 0) + " m² (mặt phẳng VN-2000)");
+    nut.push(el("button", {type: "button", cls: "xanh", text: "Đưa DT vào đất của hộ", onclick: () => dtVaoDatHo(r.dt)})); }
+  else { const r = doDai(DO.diem); kq.appendChild(el("div", {cls: "do_so so", text: chuDai(r.tong)}));
+    hd(DO.che_do === "kc" ? "Khoảng cách 2 điểm (mặt phẳng VN-2000)" : n + " điểm · " + r.doan.length + " đoạn: " + r.doan.slice(-6).map(chuDai).join(" · ") + (r.doan.length > 6 ? " …" : "")); }
+  const hang = el("div", {cls: "do_nut"}, [
+    el("button", {type: "button", cls: "phu", text: "Lùi", onclick: luiDiemDo}), el("button", {type: "button", cls: "phu", text: "Xóa", onclick: () => { DO.diem = []; DO.sai = []; veDo(); veBanDo(); }}),
+    el("button", {type: "button", onclick: themTamNgam}, [ic("cong"), " Tâm ngắm"])]);
+  if (DO.che_do !== "kc") { hang.appendChild(el("button", {type: "button", cls: DO.gps_di ? "xanh" : "phu", text: DO.gps_di ? "Dừng đi bộ" : "Đi bộ GPS",
+    onclick: () => { DO.gps_di = !DO.gps_di; if (DO.gps_di && BD.theo === null) batGPS(); if (DO.gps_di) themDiemGps(true); veDo(); }}));
+    if (DO.gps_di) hang.appendChild(el("button", {type: "button", cls: "phu", text: "Điểm góc", onclick: () => themDiemGps(true)})); }
+  for (const b of nut) hang.appendChild(b); kq.appendChild(hang); }
+function veKiemDT(kq) { const t = DO.thua, v = DO.vung;
+  if (!t) { kq.appendChild(el("div", {cls: "do_phu", text: "Chạm vào một thửa để so diện tích: theo nhãn bản đồ, theo hình thửa, theo vùng đã đo (chế độ Vùng)."
+    + (v ? "" : " Chưa đo vùng nào.")})); }
+  else { const hinh = dtVung(mvThua(t).v), nh = nhanCuaThua(t), so_nhan = nh ? soNhan(nh.chu_dt) : null, goc = so_nhan || hinh.dt;
+    const lech = x => goc ? " (" + (x >= goc ? "+" : "") + soVN((x - goc) / goc * 100, 1) + "%)" : "";
+    kq.appendChild(el("b", {text: "Kiểm tra diện tích " + tenDich(t.so_to, t.so_thua, t.ten)}));
+    const dong = (a, b) => kq.appendChild(el("div", {cls: "do_dong"}, [el("span", {text: a}), el("b", {cls: "so", text: b})]));
+    dong("Theo nhãn bản đồ", so_nhan !== null ? soVN(so_nhan, 1) + " m²" : "không có nhãn DT");
+    if (nh && nh.chu_dt_th) dong("Nhãn DT một phần (chưa đối chiếu ranh thu hồi)", nh.chu_dt_th + " m²");
+    dong("Theo hình thửa (tọa độ đỉnh)", soVN(hinh.dt, 1) + " m²" + (so_nhan !== null ? lech(hinh.dt) : ""));
+    if (v) { const dv = dtVung(v.diem); dong("Vùng đã đo (" + v.diem.length + " đỉnh)", soVN(dv.dt, 1) + " m²" + lech(dv.dt)); } }
+  if (v) { const vv = dtVung(v.diem).vn, ds = [];
+    for (const q of cacThua()) { if (q.ranh) continue; const c = mvThua(q), r = giaoDT(vv, c.v.map(([x, y]) => vnMer(x, y))); if (r.dt >= 0.5) ds.push([q, r]); }
+    if (ds.length) { kq.appendChild(el("div", {cls: "them_nhom", text: "Phần vùng đã đo nằm trong từng thửa"}));
+      for (const [q, r] of ds.sort((a, b) => b[1].dt - a[1].dt)) { const ho = q.ma_ho ? hoGoc(q.ma_ho) : null;
+        kq.appendChild(el("div", {cls: "do_dong"}, [el("span", {text: tenDich(q.so_to, q.so_thua, q.ten) + (ho ? " · " + ho.ten : "")}),
+          el("b", {cls: "so", text: (r.gan_dung ? "≈ " : "") + soVN(r.dt, 1) + " m²"})])); } } }
+  kq.appendChild(el("div", {cls: "do_phu", text: "Chỉ để kiểm tra nhanh ngoài thực địa - không thay số đo địa chính."})); }
+function veDoTrenBD(g, raX, raY) { const d = DO.diem;
+  if (DO.che_do === "dt") { if (DO.thua) { const c = mvThua(DO.thua); g.beginPath(); c.v.forEach(([x, y], i) => i ? g.lineTo(raX(x), raY(y)) : g.moveTo(raX(x), raY(y)));
+      g.closePath(); g.fillStyle = "rgba(34,211,238,.25)"; g.fill(); g.lineWidth = 4; g.strokeStyle = "#0891B2"; g.stroke(); }
+    if (DO.vung) { g.beginPath(); DO.vung.diem.forEach(([x, y], i) => i ? g.lineTo(raX(x), raY(y)) : g.moveTo(raX(x), raY(y))); g.closePath();
+      g.fillStyle = "rgba(220,38,38,.18)"; g.fill(); g.setLineDash([7, 5]); g.lineWidth = 3; g.strokeStyle = "#DC2626"; g.stroke(); g.setLineDash([]); } return; }
+  if (!d.length) return; g.beginPath(); d.forEach(([x, y], i) => i ? g.lineTo(raX(x), raY(y)) : g.moveTo(raX(x), raY(y)));
+  if (DO.che_do === "vung" && d.length >= 3) { g.closePath(); g.fillStyle = "rgba(253,224,71,.28)"; g.fill(); }
+  g.lineWidth = 3; g.strokeStyle = "#FACC15"; g.stroke();
+  for (const [x, y] of d) { g.beginPath(); g.arc(raX(x), raY(y), 6, 0, 7); g.fillStyle = "#fff"; g.fill(); g.lineWidth = 2.5; g.strokeStyle = "#CA8A04"; g.stroke(); }
+  if (d.length <= 40) { const vung = DO.che_do === "vung" && d.length >= 3, m = vung ? d.length : d.length - 1;
+    g.font = "bold 11px Segoe UI, sans-serif"; g.textAlign = "center";
+    for (let i = 0; i < m; i++) { const a = d[i], b = d[(i + 1) % d.length], va = vnMer(a[0], a[1]), vb = vnMer(b[0], b[1]), t = chuDai(Math.hypot(vb[0] - va[0], vb[1] - va[1]));
+      const x = (raX(a[0]) + raX(b[0])) / 2, y = (raY(a[1]) + raY(b[1])) / 2; g.lineWidth = 3; g.strokeStyle = "rgba(255,255,255,.95)"; g.strokeText(t, x, y - 4);
+      g.fillStyle = "#0F172A"; g.fillText(t, x, y - 4); } } }
+
+// ---------------------------------------------------------------- 1.1.48 đợt 3: DẪN ĐƯỜNG TỚI THỬA. Điểm đi = vị trí đang đứng (GPS) hoặc chạm trên bản đồ; đích
+// = điểm trong thửa (thửa đa giác: khoảng cách tới MÉP gần nhất, tới nơi = đứng trong ranh) hoặc nhãn thửa của KML. Mũi tên theo la bàn của máy
+// (deviceorientationabsolute / webkitCompassHeading; không có la bàn: theo hướng Bắc của bản đồ), rung khi tới nơi. Đường bộ: mở Google Maps
+// (bản đồ ngoại tuyến của Google dùng được) hoặc dịch vụ tìm đường kiểu OSRM do đơn vị đặt (Thêm → Dịch vụ tìm đường; mặc định TẮT).
+// Chỉ gửi tọa độ hai điểm, không gửi dữ liệu hộ.
+let DD = null; const LB = {huong: null, nghe: null}, KHOA_TIM_DUONG = "larc_field_tim_duong";
+function tenDich(to, thua, ten) { return thua ? "Thửa " + (to ? to + "/" : "") + thua : (ten || "Điểm đã chọn"); }
+function dichCuaDong(x) { return x.nguon && x.nguon.vong ? {thua: x.nguon, ten: tenDich(x.to, x.thua)} : {...(() => { const [a, b] = mer(x.lat, x.lon); return {x: a, y: b}; })(), ten: tenDich(x.to, x.thua)}; }
+function kcDoan(px, py, a, b) { const dx = b[0] - a[0], dy = b[1] - a[1], L = dx * dx + dy * dy, u = L ? Math.max(0, Math.min(1, ((px - a[0]) * dx + (py - a[1]) * dy) / L)) : 0;
+  return Math.hypot(px - a[0] - u * dx, py - a[1] - u * dy); }
+function diemTrongThua(t) { const c = mvThua(t), v = c.v; let cx = 0, cy = 0; for (const [x, y] of v) { cx += x; cy += y; } cx /= v.length; cy /= v.length;
+  if (trongVong(cx, cy, v)) return [cx, cy]; const b = c.bb; let tot = [cx, cy], dm = -1;
+  for (let i = 1; i < 12; i++) for (let j = 1; j < 12; j++) { const x = b[0] + (b[2] - b[0]) * i / 12, y = b[1] + (b[3] - b[1]) * j / 12; if (!trongVong(x, y, v)) continue;
+    let d = Infinity; for (let k = 0; k < v.length; k++) d = Math.min(d, kcDoan(x, y, v[k], v[(k + 1) % v.length])); if (d > dm) { dm = d; tot = [x, y]; } }
+  return tot; }
+function batLaBan() { if (LB.nghe) return; const f = e => { const h = typeof e.webkitCompassHeading === "number" ? e.webkitCompassHeading
+    : (e.absolute || e.type === "deviceorientationabsolute") && typeof e.alpha === "number" ? (360 - e.alpha) % 360 : null; if (h === null) return; LB.huong = h; if (DD) henDD(); };
+  LB.nghe = f; const ev = "ondeviceorientationabsolute" in window ? "deviceorientationabsolute" : "deviceorientation";
+  const gan = () => window.addEventListener(ev, f); LB.ev = ev;
+  if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function")    // iPhone: phải xin quyền trong lúc bấm
+    DeviceOrientationEvent.requestPermission().then(r => { if (r === "granted") gan(); }).catch(() => {}); else gan(); }
+function tatLaBan() { if (LB.nghe) window.removeEventListener(LB.ev, LB.nghe); LB.nghe = null; LB.huong = null; }
+let HEN_DD = 0; function henDD() { if (!HEN_DD) HEN_DD = requestAnimationFrame(() => { HEN_DD = 0; veDD(); }); }
+function batDanDuong(dich) { if (DO) tatDo(); if (HC) huyHieuChinh(); dongSheet(); moThe(TRANG_CHINH); moNganBD(false); ntCheDo("bd");   // bản đồ toàn màn hình khi dẫn đường
+  const p = dich.thua ? diemTrongThua(dich.thua) : [dich.x, dich.y];
+  DD = {dich, p, tu: null, cho_cham: false, tuyen: null, da_toi: false};
+  document.body.classList.add("dan_duong"); batLaBan(); if (BD.theo === null) batGPS(); hienThua(null);
+  BD.tu_can = null; [BD.cx, BD.cy] = p; BD.k = Math.max(BD.k, 0.6); veDD(); veBanDo(); }
+function tatDanDuong() { DD = null; tatLaBan(); document.body.classList.remove("dan_duong"); $("dd_bang").hidden = true; ntCheDo(""); veBanDo(); }
+function diemDi() { if (DD.tu) return DD.tu; return BD.gps ? mer(BD.gps.lat, BD.gps.lon) : null; }
+function tinhDD() { const tu = diemDi(); if (!tu) return null; const [x, y] = tu, cs = Math.cos(tuMer(x, y)[0] * Math.PI / 180);
+  let d, trong = false; if (DD.dich.thua) { const v = mvThua(DD.dich.thua).v; trong = trongVong(x, y, v); d = trong ? 0 : Infinity;
+    if (!trong) for (let k = 0; k < v.length; k++) d = Math.min(d, kcDoan(x, y, v[k], v[(k + 1) % v.length])); }
+  else d = Math.hypot(DD.p[0] - x, DD.p[1] - y);
+  const goc = (Math.atan2(DD.p[0] - x, DD.p[1] - y) * 180 / Math.PI + 360) % 360;
+  return {d: d * cs, goc, toi: trong || (!DD.dich.thua && d * cs < 8)}; }
+function urlGoogleMaps(xe) { const [la, lo] = tuMer(DD.p[0], DD.p[1]); let u = "https://www.google.com/maps/dir/?api=1&destination=" + la.toFixed(6) + "," + lo.toFixed(6);
+  if (DD.tu) { const [a, b] = tuMer(DD.tu[0], DD.tu[1]); u += "&origin=" + a.toFixed(6) + "," + b.toFixed(6); } return u + "&travelmode=" + (xe || "driving"); }
+function moGoogleMaps() { const u = urlGoogleMaps(); if (window.LARCAndroid) location.href = u; else window.open(u, "_blank", "noopener"); }
+function dichVuDuong() { try { return (localStorage.getItem(KHOA_TIM_DUONG) || "").trim(); } catch (e) { return ""; } }
+function datDichVuDuong() { const cu = dichVuDuong();
+  const u = prompt("Địa chỉ dịch vụ tìm đường kiểu OSRM của đơn vị (vd https://router.don-vi.vn). Để trống = tắt, chỉ dùng la bàn + Google Maps.\n"
+    + "Chỉ gửi tọa độ điểm đi / điểm đến, không gửi dữ liệu hộ.", cu); if (u === null) return; const t = u.trim().replace(/\/+$/, "");
+  if (t && !/^https:\/\//i.test(t)) { bao("Dịch vụ tìm đường phải là địa chỉ https://", 1); return; }
+  try { if (t) localStorage.setItem(KHOA_TIM_DUONG, t); else localStorage.removeItem(KHOA_TIM_DUONG); } catch (e) { /* bỏ qua */ }
+  bao(t ? "Đã đặt dịch vụ tìm đường." : "Đã tắt dịch vụ tìm đường trong ứng dụng."); if (DD) veDD(); }
+function apTuyen(j) { const r = j && j.routes && j.routes[0]; if (!r || !r.geometry || !r.geometry.coordinates) throw new Error("Dịch vụ không trả tuyến đường.");
+  DD.tuyen = {p: r.geometry.coordinates.map(([lo, la]) => mer(la, lo)), dai: r.distance, giay: r.duration}; }
+async function timDuongBo() { const g = dichVuDuong(), tu = diemDi(); if (!g || !tu) { bao(g ? "Chưa có điểm đi (GPS hoặc chạm bản đồ)." : "Chưa đặt dịch vụ tìm đường.", 1); return; }
+  const [a, b] = tuMer(tu[0], tu[1]), [c, d] = tuMer(DD.p[0], DD.p[1]);
+  try { const r = await fetch(g + "/route/v1/driving/" + b.toFixed(6) + "," + a.toFixed(6) + ";" + d.toFixed(6) + "," + c.toFixed(6) + "?overview=full&geometries=geojson",
+      {referrerPolicy: "no-referrer"}); if (!r.ok) throw new Error("HTTP " + r.status); apTuyen(await r.json()); veDD(); veBanDo(); }
+  catch (e) { bao("Không tìm được đường bộ: " + e.message + ". Dùng la bàn hoặc Google Maps.", 1); } }
+function veDD() { if (!DD) return; const hop = $("dd_bang"); hop.hidden = false; hop.textContent = ""; const r = tinhDD(), dich = DD.dich, ho = dich.thua && dich.thua.ma_ho ? hoGoc(dich.thua.ma_ho) : null;
+  hop.classList.toggle("dd_toi", !!(r && r.toi));
+  hop.appendChild(el("div", {cls: "dd_dau"}, ["Đến: ", el("b", {text: dich.ten}), ho ? " · " + ho.ten : ""]));
+  hop.appendChild(el("div", {cls: "do_che", style: "margin-top:6px"}, [el("button", {type: "button", cls: "chip" + (!DD.tu && !DD.cho_cham ? " chon" : ""), text: "Từ vị trí của tôi",
+    onclick: () => { DD.tu = null; DD.cho_cham = false; DD.tuyen = null; veDD(); veBanDo(); }}),
+    el("button", {type: "button", cls: "chip" + (DD.tu || DD.cho_cham ? " chon" : ""), text: DD.cho_cham ? "Chạm bản đồ để chọn…" : DD.tu ? "Từ điểm đã chọn" : "Chọn điểm đi trên bản đồ",
+      onclick: () => { DD.cho_cham = true; veDD(); }})]));
+  const mui = ic("mui"), giua = el("div", {cls: "dd_giua"}, [el("div", {cls: "dd_mui"}, [mui])]);
+  if (r) { mui.style.transform = "rotate(" + Math.round(r.goc - (DD.tu ? 0 : LB.huong || 0)) + "deg)";
+    giua.appendChild(el("div", {}, [el("div", {cls: "dd_kc so", text: r.toi ? "Đã tới" : chuDai(r.d)}),
+      el("div", {cls: "do_phu", text: r.toi ? "Đang đứng trong " + dich.ten.toLowerCase() : "Hướng " + huong(r.goc) + (DD.tu || LB.huong !== null ? "" : " · máy chưa có la bàn: mũi tên theo hướng Bắc")
+        + (BD.gps && !DD.tu ? " · GPS ±" + Math.round(BD.gps.acc) + " m" : "")})]));
+    if (r.toi && !DD.da_toi && !DD.tu) { DD.da_toi = true; try { if (navigator.vibrate) navigator.vibrate([200, 100, 200]); } catch (e) { /* bỏ qua */ } } }
+  else giua.appendChild(el("div", {cls: "do_phu", text: "Đang chờ vị trí GPS… (hoặc chọn điểm đi trên bản đồ)"}));
+  hop.appendChild(giua);
+  if (DD.tuyen) hop.appendChild(el("div", {cls: "do_phu", text: "Đường bộ: " + chuDai(DD.tuyen.dai) + " · khoảng " + Math.max(1, Math.round(DD.tuyen.giay / 60)) + " phút (đoạn cuối theo la bàn)"}));
+  const nut = el("div", {cls: "do_nut"}, [el("button", {type: "button", cls: "phu", onclick: moGoogleMaps}, [ic("ban_do"), " Google Maps"])]);
+  if (dichVuDuong()) nut.appendChild(el("button", {type: "button", cls: "phu", text: "Đường bộ", onclick: timDuongBo}));
+  if (dich.thua) nut.appendChild(el("button", {type: "button", cls: "phu", text: "Kiểm DT", onclick: () => batDo("dt", dich.thua)}));
+  nut.appendChild(el("button", {type: "button", text: "Dừng", onclick: tatDanDuong})); hop.appendChild(nut); }
+function veDDTrenBD(g, raX, raY) { const tu = diemDi();
+  if (DD.dich.thua) { const c = mvThua(DD.dich.thua); g.beginPath(); c.v.forEach(([x, y], i) => i ? g.lineTo(raX(x), raY(y)) : g.moveTo(raX(x), raY(y))); g.closePath();
+    g.lineWidth = 4; g.strokeStyle = "#1E3A8A"; g.stroke(); }
+  if (DD.tuyen) { g.beginPath(); DD.tuyen.p.forEach(([x, y], i) => i ? g.lineTo(raX(x), raY(y)) : g.moveTo(raX(x), raY(y))); g.lineWidth = 6; g.lineCap = "round";
+    g.strokeStyle = "#2563EB"; g.stroke(); g.lineCap = "butt"; }
+  if (tu) { const e = DD.tuyen ? DD.tuyen.p[DD.tuyen.p.length - 1] : tu; g.beginPath(); g.moveTo(raX(e[0]), raY(e[1])); g.lineTo(raX(DD.p[0]), raY(DD.p[1]));
+    g.setLineDash([8, 6]); g.lineWidth = 3; g.strokeStyle = "#2563EB"; g.stroke(); g.setLineDash([]);
+    if (DD.tu) { g.beginPath(); g.arc(raX(tu[0]), raY(tu[1]), 7, 0, 7); g.fillStyle = "#2563EB"; g.fill(); g.lineWidth = 2; g.strokeStyle = "#fff"; g.stroke(); } }
+  g.beginPath(); g.arc(raX(DD.p[0]), raY(DD.p[1]), 8, 0, 7); g.fillStyle = "#DC2626"; g.fill(); g.lineWidth = 3; g.strokeStyle = "#fff"; g.stroke(); }
+
 // ---------------------------------------------------------------- khởi động
 function khoiDong() {
   for (const [k, b, t] of NAV) { const nut = el("button", {type: "button", cls: "nav_" + k, "data-k": k, title: t, "aria-label": t, onclick: () => lenhNav(k)});
@@ -2625,7 +2864,7 @@ function khoiDong() {
   window.addEventListener("pagehide", luuNgay); document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") luuNgay(); });
   $("b_gps_nhanh").addEventListener("click", () => { if (coHo()) doTrungBinh(ST.chon); });   // 1.1.47 đợt 2: đo trung bình 10 lần
   $("b_dtb_huy").addEventListener("click", () => ketThucDoTb(true)); $("b_dtb_ghi").addEventListener("click", () => ketThucDoTb());
-  $("b_hc_huy").addEventListener("click", huyHieuChinh); $("b_hc_bo").addEventListener("click", boHieuChinh);
+  $("b_hc_huy").addEventListener("click", huyHieuChinh); $("b_do_bd").addEventListener("click", () => DO ? tatDo() : batDo("kc")); $("b_do_dong").addEventListener("click", tatDo); $("b_hc_bo").addEventListener("click", boHieuChinh);
   $("b_bb_dua_tiep").addEventListener("click", duaVaSangHoKe); $("b_ai_chep_mau").addEventListener("click", chepMauHoTruoc);
   for (const o of O_HO) for (const ev of ["input", "change"]) $("h_" + o).addEventListener(ev, luuHoSo);   // lưu từng chữ: không mất chữ vừa gõ
   $("b_gps_ho").addEventListener("click", () => { if (coHo()) doTrungBinh(ST.chon); });
@@ -2684,7 +2923,8 @@ window.LARC = {DU, get ST() { return ST; }, bieuThuc, taoKetQua, docKmlBytes, VN
   phanTichDongNhanhJS, phanTichThongMinhAI, chuanHoaTiengNoi, phanTichQRCCCD, duaAI, giaDong, themVaoAI, AI, apBoCuc, moThe, layBieuThuc,
   doiNen, luuNenKhu, NEN_DB, get NEN_LUU() { return NEN_LUU; }, O_NEN,
   goiYLoaiNhaTheoKetCau, khoaLoaiNha, kcTuChu, chupAnh, chupKhung, dongMayAnh, MAY_ANH, khopDanhMuc, duaVaSangHoKe, chepMauHoTruoc, tachKhauLenh, KML_DB, xoaKmlDaNap, khoiPhucKml, STUDIO, TU_KHOA_STUDIO, IDB, suaFontKml, napBanDo, LOP, doiTuongTai, hienDoiTuong, veBangKml, loaiNhan, lamSachXml, loaiCay, mucCay, mucCayTheo, chuTamTinh, suaDong, duaDong, thuaHoNay, timTrenBanDo, NEN, moNganBD, nhanViTri, locViTri, VT, tinhTrungBinh, doTrungBinh, ketThucDoTb, get DO_TB() { return DO_TB; },
-  batHieuChinh, chamHieuChinh, boHieuChinh, dichLop, get HC() { return HC; }, veOCha, oNen, mvThua, thuaTaiMer, batGPS, tatGPS, capNhatGPS,
+  batHieuChinh, chamHieuChinh, boHieuChinh, batDo, tatDo, doiCheDoDo, chamDo, themTamNgam, luiDiemDo, get DO() { return DO; }, doDai, dtVung, giaoDT, saiSoDT, soNhan,
+  catLoi, laLoi, vnMer, trongVong, batDanDuong, tatDanDuong, tinhDD, urlGoogleMaps, apTuyen, get DD() { return DD; }, diemTrongThua, LB, veDD, dtVaoDatHo, dichLop, get HC() { return HC; }, veOCha, oNen, mvThua, thuaTaiMer, batGPS, tatGPS, capNhatGPS,
   dsThua, veDsThua, theoDoiThua, chonThua, ntCheDo, luuThuaTay, moSheet, dongSheet, lenhGhi, lenhThem, lenhNav, khoangCach};
 khoiDong();
 </script></body></html>
