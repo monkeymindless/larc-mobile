@@ -403,6 +403,19 @@ border:2px solid #BFDBFE;display:flex;align-items:center;justify-content:center;
 .dd_kc{font-size:30px;font-weight:800;color:var(--dam);line-height:1}.dd_toi{background:#F0FDF4;border-color:#86EFAC}.dd_toi .dd_mui{background:#DCFCE7;border-color:#86EFAC;color:#15803D}
 body.che_do_toi .do_kq,body.che_do_toi .dd_bang{background:#1E293B;color:#F1F5F9;border-color:#334155}body.che_do_toi .do_so,body.che_do_toi .dd_kc{color:#93C5FD}
 body.tuong_phan_cao .do_kq,body.tuong_phan_cao .dd_bang{border:2px solid #000}
+/* 1.1.48 đợt 4: bàn phím số riêng (thay bàn phím máy ở ô số - không che nửa màn hình, có phím biểu thức), tìm trong bộ đơn giá */
+.ban_phim_rieng{position:fixed;left:0;right:0;bottom:0;z-index:78;background:#E9EEF5;border-top:1px solid var(--vien_nhat);padding:6px 6px calc(6px + env(safe-area-inset-bottom));
+display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:640px;margin:0 auto;box-shadow:0 -6px 20px rgba(15,23,42,.18)}.ban_phim_rieng[hidden]{display:none}
+.ban_phim_rieng button{min-height:48px;margin:0;padding:0;border-radius:10px;background:#fff;color:var(--chu);border:0;font-size:21px;font-weight:600;box-shadow:0 1px 0 #CBD5E1}
+.ban_phim_rieng button.p{background:var(--chinh_nhat);color:var(--dam);font-size:17px}.ban_phim_rieng button.xong{background:var(--chinh);color:#fff;font-size:16px}
+.ban_phim_rieng button.rong{grid-column:span 2}.ban_phim_rieng .tieu_bp{grid-column:1/-1;font-size:12.5px;color:var(--chu_phu);padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.bp_mo #app{padding-bottom:300px}body.bp_bat .phim_tat_ct{display:none}#b_bp_rieng.bat{background:var(--chinh_nhat);border-color:var(--chinh)}
+.tim_dm{margin-bottom:10px}.kq_dm{max-height:36vh;overflow:auto}.kq_dm:empty{display:none}
+.dong_dm{display:flex;align-items:center;gap:8px;padding:8px 2px;border-bottom:1px solid #EEF2F7;cursor:pointer}.dong_dm .nd{flex:1;min-width:0}
+.dong_dm .nd b{display:block;font-size:14px;font-weight:600}.dong_dm .nd small{color:var(--chu_phu);font-size:12px}.dong_dm .gia{font-weight:700;color:var(--dam);font-size:13px;white-space:nowrap}
+.hay_dung{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.hay_dung:empty{display:none}.hay_dung .chip{background:var(--chinh_nhat);border-color:#BFDBFE;color:var(--dam)}
+body.che_do_toi .ban_phim_rieng{background:#0F172A;border-color:#334155}body.che_do_toi .ban_phim_rieng button{background:#1E293B;color:#F1F5F9;box-shadow:none}
+body.tuong_phan_cao .ban_phim_rieng button{border:2px solid #000;color:#000;font-weight:800}
 </style></head><body>
 <!-- 1.1.47 giao diện B (người dùng chốt 27/11/2026): biểu tượng nét SVG (không emoji - máy Android cũ hiện ô vuông); dùng <svg class="ic"><use href="#i_…"/></svg> -->
 <svg class="bo_ic" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
@@ -602,6 +615,8 @@ Phần mềm tự tìm hộ theo CCCD, tờ / thửa (lô rừng), họ tên; h�
 <!-- 1.1.47 giao diện B: nút GHI (giữa thanh đáy) = mọi lệnh nhập ở một chỗ; Thêm = hiển thị, bản đồ, dự án. Mỗi lệnh một chỗ (không lặp ở thanh tiêu đề) -->
 <div class="sheet_nen" id="sheet_ghi" hidden role="dialog" aria-label="Ghi mục mới"><div class="sheet_than"><span class="sheet_tay" aria-hidden="true"></span>
 <div class="sheet_dau"><b id="ghi_tieu">Ghi mục mới</b><button class="phu nho sheet_dong" type="button" aria-label="Đóng"><svg class="ic"><use href="#i_dong"/></svg></button></div>
+<div class="tim_dm"><input id="o_tim_dm" type="search" placeholder="Tìm trong bộ đơn giá: tên tài sản, loài cây, vật nuôi…" enterkeyhint="search" autocomplete="off"/>
+<div class="kq_dm" id="kq_dm"></div><div class="hay_dung" id="hay_dung"></div></div>
 <div class="ghi_lon"><button type="button" data-ghi="noi"><svg class="ic"><use href="#i_mic"/></svg>Nói / dán biên bản</button>
 <button type="button" class="dam" data-ghi="chup"><svg class="ic"><use href="#i_anh"/></svg>Chụp ảnh hộ</button></div>
 <div class="ghi_luoi"><button type="button" data-ghi="dat"><svg class="ic"><use href="#i_nguoi"/></svg>Chủ hộ, đất</button>
@@ -611,7 +626,9 @@ Phần mềm tự tìm hộ theo CCCD, tờ / thửa (lô rừng), họ tên; h�
 <button type="button" data-ghi="vn"><svg class="ic"><use href="#i_vn"/></svg>Vật nuôi</button>
 <button type="button" data-ghi="qr"><svg class="ic"><use href="#i_qr"/></svg>Quét CCCD</button></div>
 <div class="ghi_phu"><button class="phu" id="b_gps_nhanh" type="button" title="Ghi tọa độ GPS + VN-2000 cho hộ đang chọn">📍</button>
-<button class="phu" type="button" data-ghi="mau"><svg class="ic"><use href="#i_chep"/></svg>Chép mẫu hộ trước</button></div></div></div>
+<button class="phu" type="button" data-ghi="mau"><svg class="ic"><use href="#i_chep"/></svg>Chép mẫu hộ trước</button>
+<button class="phu" type="button" data-ghi="lap"><svg class="ic"><use href="#i_xoay"/></svg>Lặp dòng vừa ghi</button></div></div></div>
+<div class="ban_phim_rieng" id="ban_phim" hidden role="group" aria-label="Bàn phím số"></div>
 <div class="hop_do_tb" id="hop_do_tb" hidden role="dialog" aria-label="Đo tọa độ trung bình"><b id="dtb_ten">Ghi tọa độ hộ</b>
 <div class="ghi">Đứng yên tại vị trí của hộ: máy đo 10 lần rồi lấy trung bình, bỏ các lần lệch.</div>
 <div class="dtb_nen"><div id="dtb_thanh"></div></div><div class="so" id="dtb_tt"></div>
@@ -630,7 +647,9 @@ Phần mềm tự tìm hộ theo CCCD, tờ / thửa (lô rừng), họ tên; h�
 <button class="doi" type="button" data-them="tim_duong"><svg class="ic"><use href="#i_mui"/></svg>Dịch vụ tìm đường</button></div>
 <div class="them_nhom">Dự án</div>
 <div class="them_luoi"><button class="doi" id="b_doi_du_an" type="button" style="display:none"><svg class="ic"><use href="#i_du_an"/></svg>Đổi dự án</button>
-<button class="doi" type="button" data-them="ho_moi"><svg class="ic"><use href="#i_cong"/></svg>Hộ mới</button></div></div></div>
+<button class="doi" type="button" data-them="ho_moi"><svg class="ic"><use href="#i_cong"/></svg>Hộ mới</button></div>
+<div class="them_nhom">Nhập liệu</div>
+<div class="them_luoi"><button class="doi" id="b_bp_rieng" type="button" title="Ô số dùng bàn phím số của ứng dụng (có x ( ) + − m²) thay bàn phím máy">Bàn phím số riêng</button></div></div></div>
 <div id="hop_xem_anh" role="dialog" aria-label="Xem ảnh biên bản"><div class="xa_thanh"><button class="phu nho" type="button" data-k="1">1x</button>
 <button class="phu nho" type="button" data-k="2">2x</button><button class="phu nho" type="button" data-k="3">3x</button>
 <span id="xa_ten" class="ghi" style="color:#E2E8F0;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
@@ -759,7 +778,9 @@ const TRANG_AI = 7, TRANG_CHINH = 5;
 const $ = id => document.getElementById(id);
 let ST = {ho: {}, moi: 0, chon: "", the: TRANG_AI, the_ho: 0};
 try { ST = Object.assign(ST, JSON.parse(localStorage.getItem(KHOA_LUU) || "{}") || {}); } catch (e) { /* lưu hỏng: bắt đầu lại */ }
-function luu() { try { localStorage.setItem(KHOA_LUU, JSON.stringify(ST)); const t = document.getElementById("da_luu"); if (t) t.textContent = "✓ Đã tự lưu " + new Date().toTimeString().slice(0, 8); } catch (e) { bao("Bộ nhớ trình duyệt đầy: xuất .json rồi xóa bớt.", 1); } }
+let BAO_DAY = false;
+function luu() { try { const chu = JSON.stringify(ST); localStorage.setItem(KHOA_LUU, chu);
+    if (chu.length > 3500000 && !BAO_DAY) { BAO_DAY = true; bao("Bộ nhớ phiếu trên máy đã dùng " + soVN(chu.length / 50000, 0) + "%: gửi kết quả về máy tính (Gửi → Lưu cả dự án) rồi xóa bớt hộ đã gửi.", 1); } const t = document.getElementById("da_luu"); if (t) t.textContent = "✓ Đã tự lưu " + new Date().toTimeString().slice(0, 8); } catch (e) { bao("Bộ nhớ trình duyệt đầy: xuất .json rồi xóa bớt.", 1); } }
 function boDau(s) { return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase(); }
 function bao(chu, loi) { const t = $("thong_bao"); t.textContent = chu; t.style.background = loi ? "#B83A3A" : "#0F172A"; t.style.display = "block";
   clearTimeout(bao._h); bao._h = setTimeout(() => { t.style.display = "none"; }, 3200); }
@@ -2421,7 +2442,7 @@ function veThe() { const h = ST.ho[ST.chon] || {}, dong = h.dong || [];
 function veTatCa() { veNutGPS(); veKpi(); veThe(); veHoSo(); bangDong("bang_nha", laNha); bangDong("bang_vkt", laVkt); bangDong("bang_cay", laCay); veBienBan(); veTomTat();
   const p = theHien(); if (p >= 0 && p <= 4 && ANH_HO !== ST.chon) { ANH_HO = ST.chon; veAnh(); } if (p === 6) veXuat(); if (p === 5) henDsThua(); }
 // nút Back (bản .apk) / Esc: đóng ảnh phóng to / ngăn tìm / dừng nghe -> về màn hình AI (dọc) hoặc mục Hồ sơ (ngang); đang ở đó: ứng dụng chạy nền
-window.LARC_quayLaiChinh = () => { if (dongSheet()) return true; if (DO_TB) { ketThucDoTb(true); return true; } if (HC) { huyHieuChinh(); return true; }
+window.LARC_quayLaiChinh = () => { if (BP.o) { BP.o.blur(); dongBP(); return true; } if (dongSheet()) return true; if (DO_TB) { ketThucDoTb(true); return true; } if (HC) { huyHieuChinh(); return true; }
   if (DD) { tatDanDuong(); return true; } if (DO) { tatDo(); return true; } if (!$("hop_may_anh").hidden) { dongMayAnh(); return true; } if (dongXemAnh()) return true; if (!$("ngan_tim").hidden) { $("ngan_tim").hidden = true; return true; }
   if (!$("hop_thu_am").hidden) { dongThuAm(); return true; }
   if (document.body.classList.contains("mo_ngan_bd")) { moNganBD(false); return true; }
@@ -2473,7 +2494,7 @@ function veXuat() { const hop = $("bang_xuat"); hop.textContent = ""; const ds =
 
 // ---------------------------------------------------------------- 1.1.47 bảng trượt GHI / Thêm (mỗi lệnh một chỗ)
 function moSheet(ten) { dongSheet();
-  if (ten === "ghi") $("ghi_tieu").textContent = ST.chon ? "Ghi cho hộ " + tenHo(ST.chon) : "Ghi mục mới - chưa chọn hộ";
+  if (ten === "ghi") { $("ghi_tieu").textContent = ST.chon ? "Ghi cho hộ " + tenHo(ST.chon) : "Ghi mục mới - chưa chọn hộ"; veHayDung(); }
   $("sheet_" + ten).hidden = false; }
 function dongSheet() { let co = false; for (const s of document.querySelectorAll(".sheet_nen")) if (!s.hidden) { s.hidden = true; co = true; } return co; }
 function lenhNav(k) { if (k === "ghi" || k === "them") { moSheet(k); return; } dongSheet();
@@ -2484,6 +2505,7 @@ function lenhGhi(k) { dongSheet();
   if (k === "qr") { moThe(TRANG_AI); chupHero(); return; }
   if (k === "chup") { chupAnh(); return; }
   if (k === "mau") { moThe(TRANG_AI); chepMauHoTruoc(); return; }
+  if (k === "lap") { lapDongVua(); return; }
   const d = DICH_GHI[k]; if (!d) return;
   if (d[0] === 3) { const kieu = k === "vn" ? "vn" : "cay"; if (KIEU_CAY !== kieu) { KIEU_CAY = kieu; veKieuCay(); } }
   moThe(d[0]); if (!ST.chon) { bao("Chưa chọn hộ: chọn hộ ở thanh trên hoặc bấm + Hộ.", 1); return; }
@@ -2522,7 +2544,8 @@ let HEN_DS = 0, DS_LUC = 0;
 function henDsThua() { if (HEN_DS) return; HEN_DS = setTimeout(() => { HEN_DS = 0; DS_LUC = Date.now(); veDsThua(); }, Math.max(60, 2000 - (Date.now() - DS_LUC))); }
 function veDsThua() { const hop = $("ds_thua"); if (!hop) return;
   const ds = dsThua(), loc = ST.loc_thua || "gan", sao = ST.theo_doi || {}, g = BD.gps, q = boDau($("o_tim_thua").value.trim());
-  for (const x of ds) { x.ten_ho = x.ho ? tenHo(x.ho) : ""; if (g) [x.d, x.huong] = khoangCach(g.lat, g.lon, x.lat, x.lon); else x.d = null; }
+  const goc_ho = new Map(dsHo().map(h => [h.khoa, h]));     // 1.1.48 đợt 4: tra tên hộ một lần (tenHo -> hoGoc dựng lại cả danh sách hộ MỖI lần gọi: 500 hộ x 2.000 thửa = 64 ms)
+  for (const x of ds) { x.ten_ho = x.ho ? ((ST.ho[x.ho] || {}).tt || {}).ho_ten || (goc_ho.get(x.ho) || {}).ten || x.ho : ""; if (g) [x.d, x.huong] = khoangCach(g.lat, g.lon, x.lat, x.lon); else x.d = null; }
   let kq = ds; if (q) { const m = q.match(/^(\S+?)\s*\/\s*(\S+)$/);
     kq = kq.filter(x => m ? khoaSo(x.to) === khoaSo(m[1]) && khoaSo(x.thua) === khoaSo(m[2]) : boDau([x.to + "/" + x.thua, x.loai, x.ten_ho].join(" ")).includes(q)); }
   if (loc === "sao") kq = kq.filter(x => sao[x.k]); if (loc === "chua") kq = kq.filter(x => !x.ho || !coDuLieu(x.ho));
@@ -2541,7 +2564,7 @@ function veDsThua() { const hop = $("ds_thua"); if (!hop) return;
     el("button", {cls: "phu nho", type: "button", text: "Bật định vị", onclick: () => { if (BD.theo === null) batGPS(); }})]));
   if (!kq.length) { hop.appendChild(el("div", {cls: "nt_trong", text: loc === "sao" ? "Chưa theo dõi thửa nào: chạm ngôi sao ở đầu dòng thửa." : "Không có thửa nào khớp."})); return; }
   let to_cu = null;
-  for (const x of kq.slice(0, 300)) {
+  for (const x of kq.slice(0, 150)) {     // 150 dòng đầu (gần nhất / theo tờ); gõ tìm để thu hẹp - dựng DOM là phần tốn nhất
     if (loc === "to" && x.to !== to_cu) { to_cu = x.to; hop.appendChild(el("div", {cls: "them_nhom", text: x.to ? "Tờ " + x.to : "Chưa rõ tờ"})); }
     const [tt, lop] = ttThua(x), co = !!sao[x.k];
     const nut_sao = el("button", {cls: "sao" + (co ? " co" : ""), type: "button", title: co ? "Bỏ theo dõi" : "Theo dõi thửa này", "aria-label": co ? "Bỏ theo dõi" : "Theo dõi",
@@ -2552,7 +2575,7 @@ function veDsThua() { const hop = $("ds_thua"); if (!hop) return;
     hop.appendChild(el("div", {cls: "dong_thua" + (BD.chon_k === x.k ? " chon" : ""), "data-k": x.k, role: "button", onclick: () => chonThua(x)}, [nut_sao,
       el("div", {cls: "nd"}, [el("b", {text: (x.to ? x.to + "/" : "Thửa ") + x.thua + (x.loai ? " · " + x.loai : "") + (x.dt ? " · " + x.dt + " m²" : "")}),
         el("small", {}, [phu ? phu + " " : "", el("span", {cls: "vt " + lop, text: tt})])]), kc])); }
-  if (kq.length > 300) hop.appendChild(el("div", {cls: "nt_trong", text: "… còn " + soVN(kq.length - 300, 0) + " thửa: gõ vào ô tìm để thu hẹp."})); }
+  if (kq.length > 150) hop.appendChild(el("div", {cls: "nt_trong", text: "… còn " + soVN(kq.length - 150, 0) + " thửa: gõ vào ô tìm để thu hẹp."})); }
 function theoDoiThua(k) { ST.theo_doi = ST.theo_doi || {}; if (ST.theo_doi[k]) delete ST.theo_doi[k]; else ST.theo_doi[k] = 1; luu(); veDsThua(); }
 function chonThua(x) { BD.chon_k = x.k; if (document.body.classList.contains("nt_ds")) ntCheDo("");
   for (const d of $("ds_thua").children) if (d.dataset) d.classList.toggle("chon", d.dataset.k === x.k);
@@ -2814,6 +2837,88 @@ function veDDTrenBD(g, raX, raY) { const tu = diemDi();
     if (DD.tu) { g.beginPath(); g.arc(raX(tu[0]), raY(tu[1]), 7, 0, 7); g.fillStyle = "#2563EB"; g.fill(); g.lineWidth = 2; g.strokeStyle = "#fff"; g.stroke(); } }
   g.beginPath(); g.arc(raX(DD.p[0]), raY(DD.p[1]), 8, 0, 7); g.fillStyle = "#DC2626"; g.fill(); g.lineWidth = 3; g.strokeStyle = "#fff"; g.stroke(); }
 
+// ---------------------------------------------------------------- 1.1.48 đợt 4: BÀN PHÍM SỐ RIÊNG (ô số / biểu thức: bàn phím máy che nửa màn hình, phải
+// đổi trang ký hiệu mới có x ( ) - ; bàn phím riêng đủ phím ngay, phím "ABC" trả về bàn phím máy cho ô đó). Mặc định BẬT trên máy cảm ứng
+// (pointer: coarse), tắt / bật ở Thêm -> Bàn phím số riêng (nhớ trên máy).
+const KHOA_BP = "larc_field_ban_phim";
+const BP_O = {so: ["h_cccd", "h_nam_sinh", "h_sdt", "h_nam_tao_lap", "d_to", "d_thua", "d_tk", "d_khoanh", "c_nam", "nt_to", "nt_thua"],
+  thap_phan: ["d_dt", "d_ha", "n_tl", "v_tl", "c_sl", "c_tl", "nt_dt"], bieu_thuc: ["n_dt", "v_sl"], khoang: ["c_do"]};
+const BP = {bat: false, o: null, may: new Set()};    // may: ô người dùng đã chuyển sang bàn phím máy (ABC)
+function loaiBP(id) { for (const k in BP_O) if (BP_O[k].includes(id)) return k; return null; }
+function bpMacDinh() { let v = null; try { v = localStorage.getItem(KHOA_BP); } catch (e) { /* bỏ qua */ }
+  return v === null ? !!(window.matchMedia && matchMedia("(pointer: coarse)").matches) : v === "1"; }
+function datBP(bat) { BP.bat = bat; document.body.classList.toggle("bp_bat", bat); const b = $("b_bp_rieng"); if (b) { b.classList.toggle("bat", bat);
+  b.textContent = bat ? "Bàn phím số riêng: Bật" : "Bàn phím số riêng: Tắt"; }
+  for (const k in BP_O) for (const id of BP_O[k]) { const o = $(id); if (!o) continue; if (!o.dataset.im) o.dataset.im = o.getAttribute("inputmode") || "";
+    if (bat && !BP.may.has(id)) o.setAttribute("inputmode", "none"); else if (o.dataset.im) o.setAttribute("inputmode", o.dataset.im); else o.removeAttribute("inputmode"); }
+  if (!bat) dongBP(); }
+function batTatBP() { const bat = !BP.bat; try { localStorage.setItem(KHOA_BP, bat ? "1" : "0"); } catch (e) { /* bỏ qua */ } BP.may.clear(); datBP(bat);
+  bao(bat ? "Ô số dùng bàn phím số của ứng dụng." : "Ô số dùng bàn phím của máy."); }
+function moBP(o) { if (!BP.bat || BP.may.has(o.id)) return; BP.o = o; const k = loaiBP(o.id), hop = $("ban_phim"); hop.textContent = "";
+  const lb = o.labels && o.labels[0] ? o.labels[0].textContent : o.placeholder || ""; hop.appendChild(el("div", {cls: "tieu_bp", text: lb}));
+  const phim = (nhan, chen, cls) => hop.appendChild(el("button", {type: "button", cls: cls || "", text: nhan, onpointerdown: e => e.preventDefault(), onclick: () => nhanBP(chen)}));
+  if (k === "bieu_thuc") { phim("×", " x ", "p"); phim("(", "(", "p"); phim(")", ")", "p"); phim("+", " + ", "p"); phim("−", " - ", "p"); phim("m²", " m2", "p"); phim("m³", " m3", "p");
+    phim("Xóa ô", "XOA_O", "p"); }
+  for (const r of [["7", "8", "9"], ["4", "5", "6"], ["1", "2", "3"]]) { for (const c of r) phim(c, c);
+    if (r[0] === "7") phim("⌫", "XOA_LUI", "p"); else if (r[0] === "4") { const c = k === "so" || k === "khoang" ? "-" : ","; phim(c, c, "p"); }
+    else phim("ABC", "ABC", "p"); }
+  // hàng cuối: ô khoảng số đo "10-15" cần thêm dấu phẩy; ô số / thập phân: Xóa ô; ô biểu thức: "m" (ghi "7m x 2m" như biên bản) - Xóa ô đã ở hàng trên
+  if (k === "khoang") phim(",", ",", "p"); else if (k === "bieu_thuc") phim("m", "m", "p"); else phim("Xóa ô", "XOA_O", "p");
+  phim("0", "0"); phim("Xong", "XONG", "xong rong");
+  hop.hidden = false; document.body.classList.add("bp_mo"); setTimeout(() => o.scrollIntoView({block: "center"}), 30); }
+function dongBP() { BP.o = null; const h = $("ban_phim"); if (h) h.hidden = true; document.body.classList.remove("bp_mo"); }
+function nhanBP(chen) { const o = BP.o; if (!o) return;
+  if (chen === "XONG") { o.blur(); dongBP(); return; }
+  if (chen === "ABC") { BP.may.add(o.id); o.setAttribute("inputmode", o.dataset.im || "text"); dongBP(); o.blur(); setTimeout(() => o.focus(), 30); return; }
+  const a = o.selectionStart ?? o.value.length, b = o.selectionEnd ?? o.value.length;
+  if (chen === "XOA_O") o.value = "";
+  else if (chen === "XOA_LUI") { const t = a === b ? Math.max(0, a - 1) : a; o.value = o.value.slice(0, t) + o.value.slice(b); try { o.setSelectionRange(t, t); } catch (e) { /* bỏ qua */ } }
+  else { o.value = o.value.slice(0, a) + chen + o.value.slice(b); const c = a + chen.length; try { o.setSelectionRange(c, c); } catch (e) { /* bỏ qua */ } }
+  o.dispatchEvent(new Event("input", {bubbles: true})); }
+
+// ---------------------------------------------------------------- 1.1.48 đợt 4: TÌM TRONG BỘ ĐƠN GIÁ (bảng GHI): gõ vài chữ không dấu -> nhà / vật kiến trúc / loài cây /
+// vật nuôi của bộ đơn giá dự án (hoặc bộ nhúng sẵn); chạm = mở đúng phần phiếu, điền sẵn tên / loại, con trỏ vào ô số lượng. "Hay dùng" = tên ghi nhiều nhất
+// ở dự án này. "Lặp dòng vừa ghi" = điền lại dòng cuối của hộ (trừ số lượng / kích thước) để ghi tiếp loại giống nhau.
+let DM_CHI_MUC = null;
+function chiMucDM() { if (DM_CHI_MUC) return DM_CHI_MUC; const ra = [], them = (loai, ma, ten, dvt, gia, phu) => ra.push({loai, ma, ten, dvt, gia, phu, khoa: boDau(ten + " " + (ma || ""))});
+  for (const m of DU.nha || []) them("nha", m[0], m[1], m[2], m[3]);
+  for (const m of DU.dm2 || []) them("vkt", m[0], m[1], m[2], m[3]);
+  const ct = DU.cay_chi_tiet || {}; for (const t of DU.cay || Object.keys(ct)) { const c = ct[t] || {}; const gia = (c.muc || []).map(x => x[3]).filter(x => x > 0);
+    them("cay", "", t, c.dvt || "cây", gia.length ? Math.min(...gia) : null, (c.muc || []).length > 1 ? (c.muc || []).length + " quy cách" : ""); }
+  for (const m of DU.vat_nuoi || []) them("vn", m[0], m[1], m[2], m[3]);
+  return (DM_CHI_MUC = ra); }
+const TEN_LOAI_DM = {nha: "Nhà", vkt: "Vật KT", cay: "Cây", vn: "Vật nuôi"};
+function timDM(q, toi_da) { const tu = boDau(q).trim().split(/\s+/).filter(x => x); if (!tu.length) return [];
+  const kq = chiMucDM().filter(x => tu.every(t => x.khoa.includes(t)));
+  // xếp: chữ gõ khớp ĐẦU TỪ ở nhiều chữ hơn trước ("san" khớp "sân" hơn "sành"), rồi tên bắt đầu bằng chữ đầu, rồi tên ngắn
+  const diem = x => tu.filter(t => !(" " + x.khoa).includes(" " + t)).length * 1000 + (x.khoa.startsWith(tu[0]) ? 0 : 500) + x.ten.length;
+  return kq.sort((a, b) => diem(a) - diem(b)).slice(0, toi_da || 30); }
+function veTimDM() { const q = $("o_tim_dm").value, hop = $("kq_dm"); hop.textContent = ""; if (!q.trim()) return;
+  const ds = timDM(q); if (!ds.length) { hop.appendChild(el("div", {cls: "do_phu", text: "Không thấy trong bộ đơn giá - ghi như biên bản ở phần Vật KT / Cây, máy tính khớp lại khi nhập."})); return; }
+  for (const x of ds) hop.appendChild(el("div", {cls: "dong_dm", role: "button", onclick: () => chonDM(x)}, [
+    el("div", {cls: "nd"}, [el("b", {text: x.ten}), el("small", {text: TEN_LOAI_DM[x.loai] + (x.ma ? " · " + x.ma : "") + (x.dvt ? " · " + x.dvt : "") + (x.phu ? " · " + x.phu : "")})]),
+    el("span", {cls: "gia so", text: x.gia ? (x.loai === "cay" && x.phu ? "từ " : "") + soVN(x.gia, 0) + " đ" : ""})])); }
+function chonDM(x) { dongSheet(); $("o_tim_dm").value = ""; veTimDM(); let o;
+  if (x.loai === "nha") { moThe(1); $("n_loai").value = x.ma; NHA_TAY = true; $("n_goi_y_kc").textContent = ""; capNhatNha(); o = "n_dt"; }
+  else if (x.loai === "vkt") { moThe(2); $("v_ten").value = x.ten; $("v_dvt").value = x.dvt || ""; capNhatVkt(); o = "v_sl"; }
+  else { const kieu = x.loai === "vn" ? "vn" : "cay"; if (KIEU_CAY !== kieu) { KIEU_CAY = kieu; veKieuCay(); } moThe(3); $("c_ten").value = x.ten;
+    $("c_ten").dispatchEvent(new Event("change")); capNhatCay(); o = "c_sl"; }
+  if (!ST.chon) { bao("Chưa chọn hộ: chọn hộ ở thanh trên hoặc bấm + Hộ.", 1); return; } setTimeout(() => { const e = $(o); if (e) e.focus({preventScroll: true}); }, 80); }
+function veHayDung() { const hop = $("hay_dung"); hop.textContent = ""; const dem = new Map();
+  for (const k in ST.ho) for (const d of ST.ho[k].dong || []) { if (!d.ma_dm && d.muc !== 3) continue; const t = d.muc === 3 || d.muc === 7 ? String(d.ten || "").replace(/\s+trồng năm\s+\d{4}$/, "") : d.ten;
+    if (t) dem.set(t, (dem.get(t) || 0) + 1); }
+  const ds = [...dem.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6); if (!ds.length) return;
+  hop.appendChild(el("span", {cls: "do_phu", style: "width:100%", text: "Hay dùng ở dự án này"}));
+  for (const [t] of ds) { const x = chiMucDM().find(m => m.ten === t) || null; if (x) hop.appendChild(el("button", {type: "button", cls: "chip", text: t, onclick: () => chonDM(x)})); } }
+function lapDongVua() { if (!coHo()) return; const ds = (hoST(ST.chon).dong || []).filter(d => !laBienBan(d) || d.ma_dm || d.so_luong), d = ds[ds.length - 1];
+  if (!d) { bao("Hộ này chưa ghi dòng nào để lặp.", 1); return; } dongSheet(); let o;
+  if (laNha(d)) { moThe(1); $("n_loai").value = d.ma_dm; NHA_TAY = true; $("n_dt").value = ""; $("n_tl").value = d.ty_le || "100"; $("n_gc").value = ""; capNhatNha(); o = "n_dt"; }
+  else if (d.muc === 2) { moThe(2); $("v_ten").value = d.ten; $("v_dvt").value = d.dvt || ""; $("v_sl").value = ""; $("v_tl").value = d.ty_le || "100"; $("v_gc").value = ""; capNhatVkt(); o = "v_sl"; }
+  else { const m = String(d.ten || "").match(/^(.*?)\s+trồng năm\s+(\d{4})$/), kieu = d.muc === 7 ? "vn" : "cay"; if (KIEU_CAY !== kieu) { KIEU_CAY = kieu; veKieuCay(); } moThe(3);
+    $("c_ten").value = m ? m[1] : d.ten; $("c_nam").value = m ? m[2] : ""; $("c_sl").value = ""; $("c_kieu").value = d.kieu || ""; $("c_do").value = d.so_do || "";
+    $("c_tl").value = d.ty_le || "100"; $("c_gc").value = ""; capNhatCay(); o = "c_sl"; }
+  bao("Đã chép \"" + d.ten + "\": nhập số lượng / kích thước mới rồi bấm Thêm."); setTimeout(() => { const e = $(o); if (e) e.focus({preventScroll: true}); }, 80); }
+
 // ---------------------------------------------------------------- khởi động
 function khoiDong() {
   for (const [k, b, t] of NAV) { const nut = el("button", {type: "button", cls: "nav_" + k, "data-k": k, title: t, "aria-label": t, onclick: () => lenhNav(k)});
@@ -2864,6 +2969,10 @@ function khoiDong() {
   window.addEventListener("pagehide", luuNgay); document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") luuNgay(); });
   $("b_gps_nhanh").addEventListener("click", () => { if (coHo()) doTrungBinh(ST.chon); });   // 1.1.47 đợt 2: đo trung bình 10 lần
   $("b_dtb_huy").addEventListener("click", () => ketThucDoTb(true)); $("b_dtb_ghi").addEventListener("click", () => ketThucDoTb());
+  $("o_tim_dm").addEventListener("input", veTimDM); $("b_bp_rieng").addEventListener("click", batTatBP);
+  document.addEventListener("focusin", e => { const o = e.target; if (o && o.id && loaiBP(o.id)) moBP(o); else if (BP.o) dongBP(); });
+  document.addEventListener("focusout", () => setTimeout(() => { const a = document.activeElement; if (BP.o && (!a || a !== BP.o)) dongBP(); }, 0));
+  datBP(bpMacDinh());
   $("b_hc_huy").addEventListener("click", huyHieuChinh); $("b_do_bd").addEventListener("click", () => DO ? tatDo() : batDo("kc")); $("b_do_dong").addEventListener("click", tatDo); $("b_hc_bo").addEventListener("click", boHieuChinh);
   $("b_bb_dua_tiep").addEventListener("click", duaVaSangHoKe); $("b_ai_chep_mau").addEventListener("click", chepMauHoTruoc);
   for (const o of O_HO) for (const ev of ["input", "change"]) $("h_" + o).addEventListener(ev, luuHoSo);   // lưu từng chữ: không mất chữ vừa gõ
@@ -2924,7 +3033,7 @@ window.LARC = {DU, get ST() { return ST; }, bieuThuc, taoKetQua, docKmlBytes, VN
   doiNen, luuNenKhu, NEN_DB, get NEN_LUU() { return NEN_LUU; }, O_NEN,
   goiYLoaiNhaTheoKetCau, khoaLoaiNha, kcTuChu, chupAnh, chupKhung, dongMayAnh, MAY_ANH, khopDanhMuc, duaVaSangHoKe, chepMauHoTruoc, tachKhauLenh, KML_DB, xoaKmlDaNap, khoiPhucKml, STUDIO, TU_KHOA_STUDIO, IDB, suaFontKml, napBanDo, LOP, doiTuongTai, hienDoiTuong, veBangKml, loaiNhan, lamSachXml, loaiCay, mucCay, mucCayTheo, chuTamTinh, suaDong, duaDong, thuaHoNay, timTrenBanDo, NEN, moNganBD, nhanViTri, locViTri, VT, tinhTrungBinh, doTrungBinh, ketThucDoTb, get DO_TB() { return DO_TB; },
   batHieuChinh, chamHieuChinh, boHieuChinh, batDo, tatDo, doiCheDoDo, chamDo, themTamNgam, luiDiemDo, get DO() { return DO; }, doDai, dtVung, giaoDT, saiSoDT, soNhan,
-  catLoi, laLoi, vnMer, trongVong, batDanDuong, tatDanDuong, tinhDD, urlGoogleMaps, apTuyen, get DD() { return DD; }, diemTrongThua, LB, veDD, dtVaoDatHo, dichLop, get HC() { return HC; }, veOCha, oNen, mvThua, thuaTaiMer, batGPS, tatGPS, capNhatGPS,
+  catLoi, laLoi, vnMer, trongVong, datBP, moBP, nhanBP, dongBP, BP, timDM, chonDM, veHayDung, lapDongVua, chiMucDM, batDanDuong, tatDanDuong, tinhDD, urlGoogleMaps, apTuyen, get DD() { return DD; }, diemTrongThua, LB, veDD, dtVaoDatHo, dichLop, get HC() { return HC; }, veOCha, oNen, mvThua, thuaTaiMer, batGPS, tatGPS, capNhatGPS,
   dsThua, veDsThua, theoDoiThua, chonThua, ntCheDo, luuThuaTay, moSheet, dongSheet, lenhGhi, lenhThem, lenhNav, khoangCach};
 khoiDong();
 </script></body></html>
